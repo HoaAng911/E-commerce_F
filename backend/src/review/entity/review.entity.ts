@@ -1,4 +1,3 @@
-// review.entity.ts
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Product } from '../../product/entity/product.entity';
 import { User } from '../../user/entity/user.entity';

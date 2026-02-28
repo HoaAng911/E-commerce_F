@@ -121,7 +121,7 @@ export default function Header() {
 
               {/* Profile Dropdown Card */}
               {isProfileOpen && (
-                <div className="absolute right-0 mt-4 w-64 bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-gray-100 p-2 animate-in fade-in zoom-in duration-200">
+                <div className="absolute right-0 mt-4 w-64 bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-50 border border-gray-100 p-2 animate-in fade-in zoom-in duration-200">
                   <div className="px-4 py-3 border-b border-gray-50">
                     <p className="text-sm font-bold text-gray-900 truncate">{user?.fullName}</p>
                     <p className="text-xs text-gray-500 truncate">{user?.email}</p>

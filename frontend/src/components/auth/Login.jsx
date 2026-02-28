@@ -199,7 +199,7 @@ export default function Login() {
               onSuccess={async (credentialResponse) => {
                 const credential = credentialResponse.credential;
                 if (!credential) return;
-
+                
                 setLoading(true);
                 setError(null);
 
@@ -237,6 +237,7 @@ export default function Login() {
                 setError('Đăng nhập Google thất bại');
               }}
               // QUAN TRỌNG: Tắt các tính năng tự động đăng nhập
+              prompt="select_account"
               useOneTap={false}
               auto_select={false}
               ux_mode="popup"

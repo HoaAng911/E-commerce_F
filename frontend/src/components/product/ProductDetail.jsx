@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Heart, ShoppingCart, Minus, Plus, Star, Truck, Shield, RotateCcw } from 'lucide-react';
 import useProductStore from '../../store/product.store';
-import useCartStore from '../../store/auth.store'
+import useCartStore from '../../store/cart.store'
 import { useParams } from 'react-router-dom';
 
 const ProductDetail = () => {

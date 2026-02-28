@@ -11,7 +11,7 @@ const useAuthStore = create(
       error: null,
       setLoading: (isLoading) => set({ isLoading }),
       setError: (error) => set({ error }),
-      
+
       // Đăng ký
       register: async (userData) => {
         set({ isLoading: true, error: null });
@@ -27,44 +27,44 @@ const useAuthStore = create(
           throw error;
         }
       },
-      
+
       // Đăng nhập
       login: async (credentials) => {
         set({ isLoading: true, error: null });
         try {
           const response = await authApi.login(credentials);
           const { access_token, user } = response.data;
-          
+
           set({
             user,
             accessToken: access_token,
             isLoading: false,
             error: null
           });
-          
+
           return response.data;
         } catch (error) {
-          set({ 
+          set({
             error: error.response?.data?.message || 'Đăng nhập thất bại',
             isLoading: false
           });
           throw error;
         }
       },
-      
+
       // Lấy thông tin profile
       getProfile: async () => {
         set({ isLoading: true, error: null });
         try {
           const response = await authApi.getProfile();
           const userProfile = response.data;
-          
+
           // Cập nhật thông tin user trong store
           set({
             user: { ...get().user, ...userProfile },
             isLoading: false
           });
-          
+
           return userProfile;
         } catch (error) {
           set({
@@ -74,20 +74,20 @@ const useAuthStore = create(
           throw error;
         }
       },
-      
+
       // Cập nhật profile
       updateProfile: async (profileData) => {
         set({ isLoading: true, error: null });
         try {
           const response = await authApi.updateProfile(profileData);
           const updatedProfile = response.data;
-          
+
           // Cập nhật thông tin user trong store
           set({
             user: { ...get().user, ...updatedProfile },
             isLoading: false
           });
-          
+
           return updatedProfile;
         } catch (error) {
           set({
@@ -97,7 +97,7 @@ const useAuthStore = create(
           throw error;
         }
       },
-      
+
       // Đổi mật khẩu
       changePassword: async (passwordData) => {
         set({ isLoading: true, error: null });
@@ -113,17 +113,17 @@ const useAuthStore = create(
           throw error;
         }
       },
-      
+
       // Refresh token (tự động gọi khi token hết hạn)
       refreshToken: async () => {
         try {
           const response = await authApi.refreshToken();
           const { access_token } = response.data;
-          
+
           set({
             accessToken: access_token
           });
-          
+
           return access_token;
         } catch (error) {
           // Nếu refresh thất bại, đăng xuất
@@ -131,37 +131,40 @@ const useAuthStore = create(
           throw error;
         }
       },
-      
+
       // Đăng xuất
       logout: async () => {
+     
+        set({
+          user: null,
+          accessToken: null,
+          error: null,
+          isLoading: false
+        });
+        localStorage.removeItem('auth-storage'); 
+
         try {
-          await authApi.logout();
-        } catch (error) {
-          console.error('Logout error:', error);
-        } finally {
-          set({
-            user: null,
-            accessToken: null,
-            error: null
-          });
+          authApi.logout();
+        } catch (e) {
+          console.log("Server session already cleared or expired");
         }
       },
-      
+
       // Cập nhật thông tin user trong store
       setUser: (userData) => {
         set({
           user: { ...get().user, ...userData }
         });
       },
-      
+
       isAuthenticated: () => {
         return !!get().accessToken && !!get().user;
       },
-      
+
       currentUser: () => get().user,
-      
+
       getToken: () => get().accessToken,
-      
+
       reset: () => set({
         user: null,
         accessToken: null,

@@ -1,21 +1,22 @@
-import { 
-  Controller, 
-  Get, 
-  Post, 
-  Patch, 
-  Delete, 
+import {
+  Controller,
+  Get,
+  Post,
+  Patch,
+  Delete,
   Body,
-  Param
+  Param,
+  UseGuards
 } from '@nestjs/common';
 import { CartService } from './cart.service';
 import { AddToCartDto } from './dto/add-to-cart.dto';
 import { UpdateCartItemDto } from './dto/update-cart-item.dto';
 import { SelectItemDto } from './dto/select-item.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('cart')
 export class CartController {
-  constructor(private readonly cartService: CartService) {}
-
+  constructor(private readonly cartService: CartService) { }
   @Get(':userId')
   async getCart(@Param('userId') userId: string) {
     return this.cartService.getCart(userId);
@@ -23,7 +24,7 @@ export class CartController {
 
   @Post('add/:userId')
   async addToCart(
-    @Param('userId') userId: string, 
+    @Param('userId') userId: string,
     @Body() dto: AddToCartDto
   ) {
     return this.cartService.addToCart(userId, dto);
@@ -50,7 +51,7 @@ export class CartController {
     return this.cartService.clearCart(userId);
   }
 
-
+  @UseGuards(AuthGuard('jwt'))
   @Delete('item/:userId/:itemId')
   async removeItem(
     @Param('userId') userId: string,

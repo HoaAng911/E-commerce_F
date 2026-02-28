@@ -7,7 +7,7 @@ import AddressManager from '../components/auth/AddressManager';
 import { LogOut } from 'lucide-react';
 
 const ProfilePage = () => {
-  const { user, currentUser, getProfile, updateProfile, logout } = useAuthStore();
+  const { User, currentUser, getProfile, updateProfile, logout } = useAuthStore();
   const currentUserData = currentUser() || user;
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);

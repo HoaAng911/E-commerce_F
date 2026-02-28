@@ -7,6 +7,7 @@ import { seconds, Throttle } from '@nestjs/throttler';
 import { AuthGuard } from '@nestjs/passport';
 import { UpdateCartItemDto } from 'src/cart/dto/update-cart-item.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
+import { ConfigService } from '@nestjs/config';
 
 class GoogleCredentialDto {
   credential: string;
@@ -14,8 +15,8 @@ class GoogleCredentialDto {
 @Controller('auth')
 
 export class AuthController {
-  configService: any;
-  constructor(private authService: AuthService) { }
+
+  constructor(private authService: AuthService,private configService: ConfigService) { }
 
 
   @Post('register')
@@ -80,20 +81,21 @@ export class AuthController {
     const user = await this.authService.validateGoogleCredential(body.credential);
     return this.authService.googleLogin(user, res);
   }
-    @Get('profile')
+  @UseGuards(AuthGuard('jwt'))
+  @Get('profile')
 
   async getProfile(@Req() req) {
     const userId = req.user.sub;
     return this.authService.getProfile(userId);
   }
-
+  @UseGuards(AuthGuard('jwt'))
   @Put('profile')
 
   async updateProfile(@Req() req, @Body() updateProfileDto: UpdateProfileDto) {
     const userId = req.user.sub;
     return this.authService.updateProfile(userId, updateProfileDto);
   }
-
+  @UseGuards(AuthGuard('jwt'))
   @Post('change-password')
   async changePassword(
     @Req() req,
