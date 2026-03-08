@@ -40,7 +40,13 @@ export class ProductsController {
     );
   }
 
-  // Giữ nguyên endpoint cũ
+
+@Get('suggestions')
+async getSuggestions(@Query('search') search: string) {
+  
+  return await this.productsService.getSuggestions(search);
+}
+
   @Get()
   findAll() {
     return this.productsService.findAll();
@@ -61,6 +67,10 @@ export class ProductsController {
     return this.productsService.remove(id);
   }
 
+
+    
+
+  
   // ==================== HOMEPAGE ENDPOINTS ====================
   @Get('homepage/data')
   getHomepageData() {

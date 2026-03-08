@@ -1,9 +1,12 @@
-import { IsEmail, IsString, Min } from "class-validator";
+import { IsEmail, IsString, MinLength, IsNotEmpty } from 'class-validator';
+export class LoginDto {
 
-export class LoginDto{
-  @IsEmail()
-  email:string
-  @IsString()
-  @Min(6)
-  password:string
+  @IsEmail({}, { message: 'Email không hợp lệ' })
+  @IsNotEmpty({ message: 'Email là bắt buộc' })
+  email: string;
+
+  @IsString({ message: 'Password phải là chuỗi' })
+  @MinLength(6, { message: 'Password phải ít nhất 6 ký tự' })
+  @IsNotEmpty({ message: 'Password là bắt buộc' })
+  password: string;
 }

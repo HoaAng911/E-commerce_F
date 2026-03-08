@@ -29,14 +29,19 @@ export class User {
   @Column('simple-array', { nullable: true })
   wishlist: string[];
   @OneToOne(() => Cart, cart => cart.user)
-  cart: Cart; 
+  cart: Cart;
 
   @Column({ default: 'CUSTOMER' })
   role: 'ADMIN' | 'CUSTOMER';
+  @Column({ nullable: true })
+  resetPasswordToken: string;
 
+  @Column({ nullable: true })
+  resetPasswordExpires: Date;
   @Column({ default: true })
   isActive: boolean;
-
+  @Column({ nullable: true, select: false })
+  refreshToken: string;
   @CreateDateColumn()
   createdAt: Date;
   @OneToMany(() => Review, (review) => review.user)

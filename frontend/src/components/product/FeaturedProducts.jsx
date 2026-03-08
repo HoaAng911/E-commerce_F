@@ -1,10 +1,10 @@
-// components/FeaturedProducts.jsx
 import React, { useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
 import ProductCard from '../ProductCard/ProductCard';
 import useProductStore from '../../store/product.store';
-
+import { useNavigate } from 'react-router-dom';
 const FeaturedProducts = () => {
+  const navigate = useNavigate();
   const { featured, loading, error, fetchHomepageData } = useProductStore();
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const FeaturedProducts = () => {
     sizes: product.sizes || []
   });
 
- 
+
   const handleLike = (productId) => {
     console.log('Liked product:', productId);
   };
@@ -42,6 +42,9 @@ const FeaturedProducts = () => {
   const handleCardClick = (product) => {
     console.log('Card clicked:', product);
   };
+  const handleSeeAll = () => {
+    navigate('/products?sortBy=best-seller')
+  }
 
   if (loading) {
     return (
@@ -50,7 +53,7 @@ const FeaturedProducts = () => {
           <div className="mb-8">
             <div className="w-48 h-8 mb-2 bg-gray-200 rounded animate-pulse"></div>
           </div>
-          
+
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
             {[1, 2, 3, 4].map((i) => (
               <div key={i} className="overflow-hidden bg-white border border-gray-200 rounded animate-pulse">
@@ -120,7 +123,7 @@ const FeaturedProducts = () => {
 
         {/* Button xem thêm */}
         <div className="mt-8 text-center">
-          <button className="inline-flex items-center gap-2 px-6 py-3 font-medium text-white transition-colors bg-black rounded hover:bg-gray-800">
+          <button onClick={handleSeeAll} className="inline-flex items-center gap-2 px-6 py-3 font-medium text-white transition-colors bg-black rounded hover:bg-gray-800">
             <span>Xem tất cả</span>
             <ArrowRight className="w-4 h-4" />
           </button>

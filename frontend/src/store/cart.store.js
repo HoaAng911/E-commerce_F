@@ -81,15 +81,28 @@ const useCartStore = create((set, get) => ({
   },
 
   // 5. Xóa 1 sản phẩm
+  // cart.store.js
   removeItem: async (itemId) => {
     const userId = get().getUserId();
     if (!userId) return;
 
+    // Lưu lại trạng thái cũ để hoàn tác nếu lỗi
+    const prevCart = get().cart;
+
+    // Cập nhật UI ngay lập tức (Optimistic Update)
+    if (prevCart) {
+      const updatedItems = prevCart.items.filter(item => item.id !== itemId);
+      // Tính toán lại sơ bộ tổng tiền nếu cần, hoặc chỉ lọc danh sách
+      set({ cart: { ...prevCart, items: updatedItems } });
+    }
+
     try {
       const response = await cartApi.removeItem(userId, itemId);
-      set({ cart: response.data });
+      set({ cart: response.data, isLoading: false });
     } catch (error) {
-      console.error(error);
+      // Hoàn tác nếu gọi API thất bại
+      set({ cart: prevCart, error: 'Không thể xóa sản phẩm', isLoading: false });
+      console.error("Lỗi xóa sản phẩm:", error);
     }
   },
 

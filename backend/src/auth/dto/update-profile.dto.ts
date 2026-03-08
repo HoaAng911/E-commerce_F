@@ -1,7 +1,7 @@
-import { IsOptional, IsString, IsEmail, IsPhoneNumber, IsUrl, MinLength } from 'class-validator';
+import { IsOptional, IsString, IsEmail, IsPhoneNumber, IsUrl, MinLength, IsArray } from 'class-validator';
 
 export class UpdateProfileDto {
- 
+
   @IsOptional()
   @IsString()
   fullName?: string;
@@ -16,7 +16,10 @@ export class UpdateProfileDto {
   @IsOptional()
   @IsUrl()
   avatar?: string;
-
+  @IsOptional()
+  @IsArray() 
+  @IsString({ each: true })
+  addresses?: string[];
 
   @IsOptional()
   @IsString()

@@ -145,23 +145,24 @@ export class CartService {
 
     return this.formatCart(cart);
   }
-  async removeItem(userId: string, itemId: string) {
-    const cart = await this.getUserCartWithItems(userId);
-    const item = cart.items.find(item => item.id === itemId);
+  async removeItem(userId: string, cartItemId: string) {
+    // Tìm item xem có tồn tại và thuộc về user đó không
+    const item = await this.cartItemRepo.findOne({
+      where: {
+        id: cartItemId,
+        cart: { user: { id: userId } }
+      },
+    });
 
     if (!item) {
-      throw new NotFoundException('Không tìm thấy sản phẩm trong giỏ');
+      throw new NotFoundException('Không tìm thấy sản phẩm trong giỏ hàng');
     }
 
     // Xóa item
     await this.cartItemRepo.remove(item);
 
-    // Cập nhật cart
-    cart.items = cart.items.filter(i => i.id !== itemId);
-    this.calculateTotals(cart);
-    await this.cartRepo.save(cart);
-
-    return this.formatCart(cart);
+    // Lấy lại giỏ hàng mới để trả về cho Frontend cập nhật UI
+    return this.getCart(userId);
   }
   // 5. Xóa toàn bộ giỏ hàng
   async clearCart(userId: string) {

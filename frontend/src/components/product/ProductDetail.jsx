@@ -100,7 +100,7 @@ const ProductDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen mt-20 bg-white">
       {/* Breadcrumb */}
       <div className="container px-4 py-4 mx-auto">
         <div className="text-sm text-gray-500">

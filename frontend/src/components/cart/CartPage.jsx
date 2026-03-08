@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import useCartStore from '../../store/cart.store';
-import PriceDisplay from '../ProductCard/PriceDisplay'; 
+import PriceDisplay from '../ProductCard/PriceDisplay';
 
 const CartPage = () => {
   const { cart, isLoading, fetchCart, updateItemQuantity, removeItem, selectItem } = useCartStore();
@@ -33,7 +33,7 @@ const CartPage = () => {
   }
 
   return (
-    <div className="min-h-screen pb-20 bg-white">
+    <div className="min-h-screen pb-20 mt-10 bg-white">
       {/* Header */}
       <div className="max-w-6xl px-4 pt-12 mx-auto mb-12">
         <div className="flex items-end justify-between pb-6 border-b border-gray-100">
@@ -56,7 +56,7 @@ const CartPage = () => {
             <div className="divide-y divide-gray-100">
               {cart.items.map((item) => (
                 <div key={item.id} className="flex gap-6 py-8 first:pt-0">
-                  {/* Checkbox ẩn hoặc dùng custom nhẹ nhàng */}
+                  {/* Checkbox ẩn*/}
                   <div className="flex items-center">
                     <input
                       type="checkbox"
@@ -68,10 +68,10 @@ const CartPage = () => {
 
                   {/* Ảnh sản phẩm */}
                   <div className="overflow-hidden rounded-sm w-28 h-36 bg-gray-50 shrink-0">
-                    <img 
-                      src={item.product.mainImage} 
-                      alt={item.product.name} 
-                      className="object-cover w-full h-full" 
+                    <img
+                      src={item.product.mainImage}
+                      alt={item.product.name}
+                      className="object-cover w-full h-full"
                     />
                   </div>
 
@@ -82,7 +82,7 @@ const CartPage = () => {
                         <h3 className="font-bold leading-tight text-gray-900">
                           {item.product.name}
                         </h3>
-                        <button 
+                        <button
                           onClick={() => removeItem(item.id)}
                           className="text-gray-300 transition-colors hover:text-black"
                         >
@@ -130,7 +130,7 @@ const CartPage = () => {
               <h2 className="text-xs font-bold uppercase tracking-[0.2em] mb-8 border-b border-gray-200 pb-4">
                 Chi tiết thanh toán
               </h2>
-              
+
               <div className="mb-8 space-y-4">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-500">Tổng tiền hàng</span>
@@ -150,17 +150,19 @@ const CartPage = () => {
                 </div>
               </div>
 
-              <button className="w-full bg-black text-white py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-gray-800 transition-all shadow-sm">
-                Thanh toán đơn hàng
-              </button>
+              <Link to="/checkout" className="block w-full">
+                <button className="w-full bg-black text-white py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-gray-800 transition-all shadow-sm">
+                  Thanh toán đơn hàng
+                </button>
+              </Link>
 
               <div className="mt-8 space-y-3">
-                 <p className="text-[10px] text-gray-400 uppercase tracking-wider flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 bg-black rounded-full"></span> Chính sách đổi trả trong vòng 7 ngày
-                 </p>
-                 <p className="text-[10px] text-gray-400 uppercase tracking-wider flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 bg-black rounded-full"></span> Cam kết hàng chính hãng 100%
-                 </p>
+                <p className="text-[10px] text-gray-400 uppercase tracking-wider flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 bg-black rounded-full"></span> Chính sách đổi trả trong vòng 7 ngày
+                </p>
+                <p className="text-[10px] text-gray-400 uppercase tracking-wider flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 bg-black rounded-full"></span> Cam kết hàng chính hãng 100%
+                </p>
               </div>
             </div>
           </div>

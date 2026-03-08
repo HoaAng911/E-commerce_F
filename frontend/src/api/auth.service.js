@@ -23,6 +23,9 @@ const authApi = {
 
   // Đổi mật khẩu
   changePassword: (data) => api.post('/auth/change-password', data),
+  sendOtp: (email) => api.post('/auth/forgot-password/send-otp', { email }),
+  verifyOtp: (data) => api.post('/auth/forgot-password/verify-otp', data),
+  finalizeReset: (data) => api.post('/auth/forgot-password/finalize', data),
 };
 
 export default authApi;

@@ -1,4 +1,3 @@
-// api/product.js
 import api from './axios';
 
 const productApi = {

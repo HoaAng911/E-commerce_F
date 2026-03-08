@@ -1,3 +1,4 @@
+import { ArticalModule } from './artical/artical.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { CategoriesModule } from './categories/categories.module';
@@ -16,13 +17,19 @@ import { CartItem } from './cart/entity/cart-item.entity';
 import { Cart } from './cart/entity/cart.entity';
 import { seconds, ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { OrderModule } from './order/order.module';
+import { Order } from './order/entity/order.entity';
+import { OrderItem } from './order/entity/order-item.entity';
+import { Article } from './artical/entity/artical.entity';
 
 
 @Module({
   imports: [
+    ArticalModule, 
     AuthModule,
     UserModule,
     CategoriesModule,
+    OrderModule,
     CartModule,
     ConfigModule,
     ProductsModule,
@@ -40,7 +47,7 @@ import { APP_GUARD } from '@nestjs/core';
     //     },
     //   ],
     // })
-    
+
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -57,13 +64,17 @@ import { APP_GUARD } from '@nestjs/core';
           Product,
           Category,
           CartItem,
-          Cart
+          Cart,
+          Order,
+          OrderItem,
+          Article
         ],
         synchronize: true,
       }),
     }),
   ],
   // providers: [
+  
   //   {
   //     provide: APP_GUARD,
   //     useClass: ThrottlerGuard

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { User, Mail, Phone, MapPin, Plus, Trash2 } from 'lucide-react';
+import { User, Phone, MapPin, Plus,Mail,Save, Trash2, Loader2, X } from 'lucide-react';
 
 const ProfileForm = ({ user, onSubmit, onCancel, loading }) => {
   const [formData, setFormData] = useState({
     fullName: '',
-    email: '',
+    
     phone: '',
     avatar: '',
     addresses: [''],
@@ -14,7 +14,7 @@ const ProfileForm = ({ user, onSubmit, onCancel, loading }) => {
     if (user) {
       setFormData({
         fullName: user.fullName || '',
-        email: user.email || '',
+      
         phone: user.phone || '',
         avatar: user.avatar || '',
         addresses: user.addresses?.length > 0 
@@ -70,104 +70,103 @@ const ProfileForm = ({ user, onSubmit, onCancel, loading }) => {
     onSubmit(updateData);
   };
 
-  return (
-    <form id="profile-form" onSubmit={handleSubmit} className="space-y-6">
-      {/* Personal Info */}
-      <div>
-        <h3 className="flex items-center gap-2 mb-4 text-lg font-semibold text-gray-900">
-          <User className="w-5 h-5" />
-          Thông tin cá nhân
-        </h3>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div>
-            <label className="block mb-2 text-sm font-medium text-gray-700">
-              Họ và tên
-            </label>
-            <input
-              type="text"
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-black"
-              placeholder="Nhập họ và tên"
-            />
-          </div>
-
-          <div>
-            <label className="block mb-2 text-sm font-medium text-gray-700">
-              Email
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              disabled
-              className="w-full px-4 py-2 text-gray-500 bg-gray-100 border border-gray-300 rounded cursor-not-allowed"
-            />
-            <p className="mt-1 text-xs text-gray-500">Email không thể thay đổi</p>
-          </div>
-
-          <div>
-            <label className="block mb-2 text-sm font-medium text-gray-700">
-              Số điện thoại
-            </label>
-            <input
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-black"
-              placeholder="0123456789"
-            />
-          </div>
-
-          <div>
-            <label className="block mb-2 text-sm font-medium text-gray-700">
-              URL ảnh đại diện
-            </label>
-            <input
-              type="url"
-              name="avatar"
-              value={formData.avatar}
-              onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-black"
-              placeholder="https://example.com/avatar.jpg"
-            />
-          </div>
+  // Helper component cho Input Field
+  const InputField = ({ label, icon: Icon, ...props }) => (
+    <div>
+      <label className="block mb-2 text-sm font-semibold text-gray-800">
+        {label}
+      </label>
+      <div className="relative">
+        <div className="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 pointer-events-none">
+          <Icon className="w-5 h-5" />
         </div>
+        <input
+          {...props}
+          className={`w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all ${props.disabled ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : 'bg-white'}`}
+        />
       </div>
+      {props.name === 'email' && <p className="mt-1.5 text-xs text-gray-500 pl-1">Email tài khoản không thể thay đổi</p>}
+    </div>
+  );
+
+  return (
+    <form id="profile-form" onSubmit={handleSubmit} className="space-y-10">
+      {/* Personal Info */}
+      <section>
+        <div className="flex items-center gap-3 pb-2 mb-6 border-b border-gray-100">
+          <div className="p-2.5 bg-gray-100 rounded-lg text-black">
+            <User className="w-5 h-5" />
+          </div>
+          <h3 className="text-xl font-bold text-gray-900">
+            Thông tin cá nhân
+          </h3>
+        </div>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <InputField
+            label="Họ và tên"
+            icon={User}
+            type="text"
+            name="fullName"
+            value={formData.fullName}
+            onChange={handleInputChange}
+            placeholder="Nhập họ và tên của bạn"
+            required
+          />
+
+          <InputField
+            label="Số điện thoại"
+            icon={Phone}
+            type="tel"
+            name="phone"
+            value={formData.phone}
+            onChange={handleInputChange}
+            placeholder="09xx xxx xxx"
+          />
+          
+          {/* Đã ẩn URL Avatar vì chuyển sang upload ở Header */}
+        </div>
+      </section>
 
       {/* Addresses */}
-      <div>
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-900">
-            <MapPin className="w-5 h-5" />
-            Địa chỉ
-          </h3>
+      <section>
+        <div className="flex items-center justify-between pb-2 mb-6 border-b border-gray-100">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 bg-gray-100 rounded-lg text-black">
+              <MapPin className="w-5 h-5" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900">
+              Sổ địa chỉ nhận hàng
+            </h3>
+          </div>
           <button
             type="button"
             onClick={addAddressField}
-            className="flex items-center gap-1 px-4 py-2 text-sm text-gray-700 transition-colors bg-gray-100 rounded hover:bg-gray-200"
+            className="flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-gray-800 transition-all bg-gray-100 rounded-lg hover:bg-gray-200 active:scale-95"
           >
             <Plus className="w-4 h-4" />
             Thêm địa chỉ
           </button>
         </div>
-        <div className="space-y-3">
+        
+        <div className="space-y-4">
           {formData.addresses.map((address, index) => (
-            <div key={index} className="flex gap-2">
+            <div key={index} className="flex items-center gap-3 group animate-fade-in">
+              <div className="flex items-center justify-center w-10 h-10 text-sm font-bold text-gray-500 transition-colors bg-gray-100 rounded-xl shrink-0 group-focus-within:bg-black group-focus-within:text-white">
+                {index + 1}
+              </div>
               <input
                 type="text"
                 value={address}
                 onChange={(e) => handleAddressChange(index, e.target.value)}
-                className="flex-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-black"
-                placeholder="Nhập địa chỉ"
+                className="flex-1 px-4 py-3 transition-all bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black"
+                placeholder="Nhập địa chỉ giao hàng cụ thể của bạn"
               />
               {formData.addresses.length > 1 && (
                 <button
                   type="button"
                   onClick={() => removeAddressField(index)}
-                  className="px-3 py-2 text-red-600 transition-colors border border-red-200 rounded bg-red-50 hover:bg-red-100"
+                  className="p-3 text-red-500 transition-all border border-red-100 opacity-0 rounded-xl bg-red-50 hover:bg-red-100 hover:border-red-200 active:scale-95 group-hover:opacity-100 focus:opacity-100"
+                  title="Xóa địa chỉ này"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
@@ -175,23 +174,24 @@ const ProfileForm = ({ user, onSubmit, onCancel, loading }) => {
             </div>
           ))}
         </div>
-      </div>
+      </section>
 
       {/* Action buttons (for mobile) */}
-      <div className="flex gap-2 pt-4 md:hidden">
+      <div className="flex gap-3 pt-6 border-t border-gray-100 md:hidden animate-fade-in-up">
         <button
           type="button"
           onClick={onCancel}
-          className="flex-1 px-4 py-2 text-gray-700 transition-colors bg-white border border-gray-300 rounded hover:bg-gray-50"
+          className="flex-1 px-5 py-3.5 text-gray-700 font-semibold transition-all bg-white border border-gray-200 rounded-xl hover:bg-gray-50 active:scale-95"
         >
-          Hủy
+          Hủy bỏ
         </button>
         <button
           type="submit"
           disabled={loading}
-          className="flex-1 px-4 py-2 text-white transition-colors bg-black rounded hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 text-white font-semibold transition-all bg-black rounded-xl hover:bg-gray-800 disabled:opacity-60 disabled:cursor-not-allowed active:scale-95 shadow-md shadow-black/10"
         >
-          {loading ? 'Đang lưu...' : 'Lưu'}
+          {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+          {loading ? 'Đang lưu...' : 'Lưu thông tin'}
         </button>
       </div>
     </form>

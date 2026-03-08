@@ -56,7 +56,7 @@ export default function Login() {
   const handleFacebookLogin = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       // Mở popup đăng nhập Facebook
       window.open(
@@ -64,20 +64,20 @@ export default function Login() {
         'facebook-login',
         'width=600,height=600,scrollbars=yes'
       );
-      
+
       // Lắng nghe message từ popup
       const messageHandler = (event) => {
         if (event.origin !== 'http://localhost:3001') return;
-        
+
         if (event.data.type === 'facebook-login-success') {
           const { access_token, user } = event.data;
-          
+
           useAuthStore.setState({
             accessToken: access_token,
             user: user,
             isLoading: false,
           });
-          
+
           alert('Đăng nhập bằng Facebook thành công!');
           navigate('/');
           window.removeEventListener('message', messageHandler);
@@ -87,7 +87,7 @@ export default function Login() {
           window.removeEventListener('message', messageHandler);
         }
       };
-      
+
       window.addEventListener('message', messageHandler);
     } catch (err) {
       setError('Đăng nhập Facebook thất bại');
@@ -162,12 +162,14 @@ export default function Login() {
                 'Đăng nhập'
               )}
             </button>
-            <Link
-              to="/forgot-password"
-              className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 whitespace-nowrap"
-            >
-              Quên mật khẩu?
-            </Link>
+            <div className="flex justify-end mt-2">
+              <Link
+                to="/forgot-password"
+                className="text-sm font-medium text-blue-600 hover:text-blue-500 hover:underline"
+              >
+                Quên mật khẩu?
+              </Link>
+            </div>
           </div>
         </form>
 
@@ -199,7 +201,7 @@ export default function Login() {
               onSuccess={async (credentialResponse) => {
                 const credential = credentialResponse.credential;
                 if (!credential) return;
-                
+
                 setLoading(true);
                 setError(null);
 

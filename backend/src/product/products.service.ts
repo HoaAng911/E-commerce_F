@@ -21,7 +21,6 @@ export class ProductsService {
     return await this.productsRepository.save(product);
   }
 
-  // Hàm pagination đơn giản
   async findAllWithPagination(
     page: number = 1,
     limit: number = 20,
@@ -30,79 +29,57 @@ export class ProductsService {
     brand?: string,
     minPrice?: number,
     maxPrice?: number,
-    sortBy: string = 'createdAt',
+    sortBy: string = 'newest', // Mặc định là mới nhất
     sortOrder: 'ASC' | 'DESC' = 'DESC'
-  ): Promise<{ 
-    products: Product[]; 
-    total: number; 
-    page: number; 
-    limit: number; 
-    totalPages: number 
+  ): Promise<{
+    products: Product[];
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number
   }> {
-    
-    // Tính toán skip
     const skip = (page - 1) * limit;
-    
-    // Tạo điều kiện where
     const whereConditions: any = { isActive: true };
-    
-    // Thêm các điều kiện filter
-    if (search) {
-      whereConditions.name = ILike(`%${search}%`);
-    }
-    
-    if (category) {
-      whereConditions.categoryId = category;
-    }
-    
-    if (brand) {
-      whereConditions.brand = ILike(`%${brand}%`);
-    }
-    
+
+    // 1. Xử lý Filters
+    if (search) whereConditions.name = ILike(`%${search}%`);
+    if (category) whereConditions.categoryId = category;
+    if (brand) whereConditions.brand = ILike(`%${brand}%`);
+
     if (minPrice || maxPrice) {
-      if (minPrice && maxPrice) {
-        whereConditions.price = Between(minPrice, maxPrice);
-      } else if (minPrice) {
-        whereConditions.price = MoreThanOrEqual(minPrice);
-      } else if (maxPrice) {
-        whereConditions.price = LessThanOrEqual(maxPrice);
-      }
+      if (minPrice && maxPrice) whereConditions.price = Between(minPrice, maxPrice);
+      else if (minPrice) whereConditions.price = MoreThanOrEqual(minPrice);
+      else if (maxPrice) whereConditions.price = LessThanOrEqual(maxPrice);
     }
-    
-    // Xác định order
+
+    // 2. Xử lý Order 
     let order: any = {};
-    if (sortBy === 'price') {
-      order.price = sortOrder;
-    } else if (sortBy === 'rating') {
-      order.rating = sortOrder;
-    } else if (sortBy === 'soldCount') {
-      order.soldCount = sortOrder;
-    } else if (sortBy === 'discountPercent') {
-      order.discountPercent = sortOrder;
-    } else {
-      order.createdAt = sortOrder;
+    switch (sortBy) {
+      case 'price_asc': order.price = 'ASC'; break;
+      case 'price_desc': order.price = 'DESC'; break;
+      case 'popular': order.soldCount = 'DESC'; break;
+      case 'rating': order.rating = 'DESC'; break;
+      case 'newest':
+      default:
+        order.createdAt = 'DESC';
+        break;
     }
-    
-    // Lấy tổng số items
-    const total = await this.productsRepository.count({ where: whereConditions });
-    
-    // Lấy dữ liệu với pagination
-    const products = await this.productsRepository.find({
+
+
+    const [products, total] = await this.productsRepository.findAndCount({
       where: whereConditions,
       order: order,
       skip: skip,
       take: limit,
+      relations: ['category'],
     });
-    
-    // Tính tổng số trang
-    const totalPages = Math.ceil(total / limit);
-    
+
     return {
       products,
       total,
       page,
       limit,
-      totalPages
+      totalPages: Math.ceil(total / limit),
     };
   }
 
@@ -129,7 +106,7 @@ export class ProductsService {
     const result = await this.productsRepository.delete(id);
     if (result.affected === 0) throw new NotFoundException('Product not found');
   }
-  
+
   async getFeaturedProducts(limit: number = 8): Promise<Product[]> {
     return await this.productsRepository.find({
       where: {
@@ -140,7 +117,7 @@ export class ProductsService {
       take: limit,
     });
   }
-  
+
   async getNewArrivals(limit: number = 8): Promise<Product[]> {
     return await this.productsRepository.find({
       where: { isActive: true },
@@ -148,7 +125,7 @@ export class ProductsService {
       take: limit,
     });
   }
-  
+
   async getBestSellers(limit: number = 8): Promise<Product[]> {
     return await this.productsRepository.find({
       where: { isActive: true },
@@ -156,18 +133,18 @@ export class ProductsService {
       take: limit,
     });
   }
-  
+
   async getDiscountedProducts(limit: number = 8): Promise<Product[]> {
     return await this.productsRepository.find({
       where: {
         isActive: true,
-        discountPercent: MoreThan(0) 
+        discountPercent: MoreThan(0)
       },
       order: { discountPercent: 'DESC' },
       take: limit,
     });
   }
-  
+
   async getTopRatedProducts(limit: number = 8): Promise<Product[]> {
     return await this.productsRepository.find({
       where: { isActive: true },
@@ -175,7 +152,7 @@ export class ProductsService {
       take: limit,
     });
   }
-  
+
   async getFlashSaleProducts(limit: number = 8): Promise<Product[]> {
     return await this.productsRepository.find({
       where: {
@@ -186,7 +163,7 @@ export class ProductsService {
       take: limit,
     });
   }
-  
+
   async getProductsByBrand(brand: string, limit: number = 6): Promise<Product[]> {
     return await this.productsRepository.find({
       where: {
@@ -196,7 +173,19 @@ export class ProductsService {
       take: limit,
     });
   }
-  
+ 
+  async getSuggestions(search: string, limit: number = 5): Promise<Partial<Product>[]> {
+    if (!search) return [];
+
+    return await this.productsRepository.find({
+      where: {
+        name: ILike(`%${search}%`),
+        isActive: true
+      },
+      select: ['id', 'name', 'mainImage', 'price'],
+      take: limit,
+    });
+  }
   async getHomepageData(): Promise<{
     featured: Product[];
     newArrivals: Product[];
