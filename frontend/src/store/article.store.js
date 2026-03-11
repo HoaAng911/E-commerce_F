@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import articleApi from '../api/artical.service';
+import articleApi from '../api/article.service';
 
 const useArticleStore = create((set, get) => ({
   articles: [],

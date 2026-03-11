@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import useProductStore from '../../../store/product.store';
-import ProductCard from '../../ProductCard/ProductCard';
+import ProductCard from '../ProductCard/ProductCard';
 import ProductFilters from './ProductFilters';
 import ProductSort from './ProductSort';
 import Pagination from '../../common/Pagination';

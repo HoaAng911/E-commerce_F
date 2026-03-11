@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
-import ProductCard from '../ProductCard/ProductCard';
+import ProductCard from './ProductCard/ProductCard';
 import useProductStore from '../../store/product.store';
 import { useNavigate } from 'react-router-dom';
 const FeaturedProducts = () => {

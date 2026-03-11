@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import useArticleStore from '../store/artical.store';
+import useArticleStore from '../store/article.store';
 
 const ArticleDetail = () => {
   const { slug } = useParams();

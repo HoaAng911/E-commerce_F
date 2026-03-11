@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import useArticleStore from '../../store/artical.store'; //
+import useArticleStore from '../../store/article.store'; 
 
 const ArticleList = () => {
-  const { articles, fetchArticles, isLoading } = useArticleStore(); //
+  const { articles, fetchArticles, isLoading } = useArticleStore(); 
 
   useEffect(() => {
     fetchArticles();

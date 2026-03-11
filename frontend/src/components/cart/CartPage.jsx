@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import useCartStore from '../../store/cart.store';
-import PriceDisplay from '../ProductCard/PriceDisplay';
+import PriceDisplay from '../product/ProductCard/PriceDisplay';
 
 const CartPage = () => {
   const { cart, isLoading, fetchCart, updateItemQuantity, removeItem, selectItem } = useCartStore();

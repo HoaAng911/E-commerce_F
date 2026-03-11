@@ -2,23 +2,39 @@ import { useState, useEffect } from 'react';
 import { Heart, Minus, Plus, ShoppingCart, ChevronDown, Star } from 'lucide-react';
 import useProductStore from '../../store/product.store';
 import useCartStore from '../../store/cart.store';
+import useReviewStore from '../../store/review.store';
 import { useParams } from 'react-router-dom';
-
+import ReviewSection from '../review/ReviewSection'
+import useAuthStore from '../../store/auth.store';
 const ProductDetail = () => {
   const { id } = useParams();
   const [selectedSize, setSelectedSize] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [isLiked, setIsLiked] = useState(false);
-  
-  const { fetchProductById, selectedProduct, loading, error } = useProductStore();
-  const addToCart = useCartStore((state) => state.addToCart);
 
+  const { fetchProductById, selectedProduct, loading, error } = useProductStore();
+  const { reviews, fetchReviewsByProduct, addReview } = useReviewStore();
+  const addToCart = useCartStore((state) => state.addToCart);
+  const { user } = useAuthStore();
   useEffect(() => {
-    if (id) fetchProductById(id);
+    if (id) {
+      fetchProductById(id);
+      fetchReviewsByProduct(id);
+    }
     window.scrollTo(0, 0);
   }, [id]);
+  const handleSendReview = async (data) => {
+    if (!user) return alert("Vui lòng đăng nhập để đánh giá");
 
+    await addReview({
+      ...data,
+      productId: id,
+      userId: user.id,
+      size: selectedSize,
+      color: selectedColor
+    });
+  };
   // Giữ nguyên hàm format giá của bạn
   const formatPrice = (price) => {
     if (!price) return '0 ₫';
@@ -41,7 +57,7 @@ const ProductDetail = () => {
     <div className="min-h-screen pb-20 bg-white pt-28">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
         <div className="flex flex-col gap-16 lg:flex-row">
-          
+
           {/* CỘT TRÁI: DANH SÁCH ẢNH DÀN TRẢI (NIKE STYLE) */}
           <div className="w-full lg:w-[60%] grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="bg-[#f5f5f5] aspect-square overflow-hidden md:col-span-2">
@@ -60,7 +76,7 @@ const ProductDetail = () => {
             <h1 className="mb-4 text-3xl italic font-black leading-none tracking-tighter uppercase">
               {selectedProduct.name}
             </h1>
-            
+
             <div className="mb-6">
               <div className="text-xl font-bold text-red-600">{formatPrice(selectedProduct.price)}</div>
               {selectedProduct.discountPercent > 0 && (
@@ -79,9 +95,8 @@ const ProductDetail = () => {
                   <button
                     key={color}
                     onClick={() => setSelectedColor(color)}
-                    className={`px-6 py-2 border-2 text-sm font-bold transition-all ${
-                      selectedColor === color ? 'border-black bg-black text-white' : 'border-gray-200 hover:border-black'
-                    }`}
+                    className={`px-6 py-2 border-2 text-sm font-bold transition-all ${selectedColor === color ? 'border-black bg-black text-white' : 'border-gray-200 hover:border-black'
+                      }`}
                   >
                     {color}
                   </button>
@@ -100,9 +115,8 @@ const ProductDetail = () => {
                   <button
                     key={size}
                     onClick={() => setSelectedSize(size)}
-                    className={`py-3 border-2 text-sm font-bold rounded-sm transition-all ${
-                      selectedSize === size ? 'border-black bg-black text-white' : 'border-gray-200 hover:border-black'
-                    }`}
+                    className={`py-3 border-2 text-sm font-bold rounded-sm transition-all ${selectedSize === size ? 'border-black bg-black text-white' : 'border-gray-200 hover:border-black'
+                      }`}
                   >
                     {size}
                   </button>
@@ -114,9 +128,9 @@ const ProductDetail = () => {
             <div className="mb-10">
               <p className="mb-3 text-xs font-bold tracking-widest text-gray-400 uppercase">Số lượng (Còn {selectedProduct.stock})</p>
               <div className="flex items-center w-32 overflow-hidden border-2 border-gray-200 rounded-full">
-                <button onClick={() => handleQuantityChange('decrease')} className="flex-1 p-2 hover:bg-gray-100"><Minus size={16}/></button>
+                <button onClick={() => handleQuantityChange('decrease')} className="flex-1 p-2 hover:bg-gray-100"><Minus size={16} /></button>
                 <span className="font-bold">{quantity}</span>
-                <button onClick={() => handleQuantityChange('increase')} className="flex-1 p-2 hover:bg-gray-100"><Plus size={16}/></button>
+                <button onClick={() => handleQuantityChange('increase')} className="flex-1 p-2 hover:bg-gray-100"><Plus size={16} /></button>
               </div>
             </div>
 
@@ -132,20 +146,27 @@ const ProductDetail = () => {
                 onClick={() => setIsLiked(!isLiked)}
                 className="flex items-center justify-center w-full gap-2 py-5 font-bold tracking-widest uppercase transition-all border-2 border-gray-200 rounded-full hover:border-black"
               >
-                Yêu thích <Heart size={20} className={isLiked ? "fill-red-600 text-red-600" : ""}/>
+                Yêu thích <Heart size={20} className={isLiked ? "fill-red-600 text-red-600" : ""} />
               </button>
             </div>
 
             {/* Mô tả */}
             <div className="pt-8 mt-12 border-t border-gray-100">
-               <p className="mb-6 leading-relaxed text-gray-800">{selectedProduct.description}</p>
-               <div className="flex items-center gap-4 text-xs font-bold text-gray-400">
-                  <span>SỐ LẦN ĐƯỢC XEM: {selectedProduct.views || 0}</span>
-                  <span>ĐÃ BÁN: {selectedProduct.soldCount}</span>
-               </div>
+              <p className="mb-6 leading-relaxed text-gray-800">{selectedProduct.description}</p>
+              <div className="flex items-center gap-4 text-xs font-bold text-gray-400">
+                <span>SỐ LẦN ĐƯỢC XEM: {selectedProduct.views || 0}</span>
+                <span>ĐÃ BÁN: {selectedProduct.soldCount}</span>
+              </div>
             </div>
+            
           </div>
+          
         </div>
+        <ReviewSection
+              reviews={reviews}
+              onSendReview={handleSendReview}
+              user={user}
+            />
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import axios from './axios';
+import axios from '../lib/axios';
 
 const orderApi = {
   // 1. Tạo đơn hàng mới

@@ -21,10 +21,12 @@ import { OrderModule } from './order/order.module';
 import { Order } from './order/entity/order.entity';
 import { OrderItem } from './order/entity/order-item.entity';
 import { Article } from './artical/entity/artical.entity';
+import { ReviewsModule } from './review/review.module';
 
 
 @Module({
   imports: [
+    ReviewsModule,
     ArticalModule, 
     AuthModule,
     UserModule,
