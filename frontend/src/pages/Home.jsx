@@ -3,6 +3,8 @@ import { BrandCategory } from "../components/layout/BrandCategory";
 import FeaturedProducts from "../components/product/FeaturedProducts";
 import NewArrivals from "../components/product/NewArrivals";
 import PromoBanner from "../components/layout/PromoBanner";
+import ArticleDetail from "./ArticleDetail";
+import ArticleList from "../components/layout/ArticleList";
 
 export default function Home() {
   return (
@@ -17,6 +19,7 @@ export default function Home() {
         <section>
           <NewArrivals />
         </section>
+        <ArticleList/>
       </main>
     </div>
   );

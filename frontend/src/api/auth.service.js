@@ -1,4 +1,3 @@
-// api/auth.service.js
 import api from './axios';
 
 const authApi = {

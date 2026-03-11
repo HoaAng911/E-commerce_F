@@ -15,6 +15,8 @@ import OrderSuccessPage from './pages/OrderSuccessPage'
 import OrderPage from './pages/OrderPage'
 import OrderDetail from './pages/OrderDetail'
 import ForgotPassword from './components/auth/ForgotPassword'
+import ArticleList from './components/layout/ArticleList'
+import ArticleDetail from './pages/ArticleDetail'
 function App() {
 
   return (
@@ -29,8 +31,10 @@ function App() {
         <Route path="/checkout" element={<MainLayout><CheckoutPage /></MainLayout>} />
         <Route path="/order-success/:orderId" element={<MainLayout><OrderSuccessPage /></MainLayout>} />
         <Route path="/my-orders" element={<MainLayout><OrderPage /></MainLayout>} />
+        <Route path="/articles" element={<MainLayout><ArticleList /></MainLayout>} />
+         <Route path="/articles/:slug" element={<MainLayout><ArticleDetail /></MainLayout>} />
         <Route path="/order/:id" element={<MainLayout><OrderDetail /></MainLayout>} />
-        <Route path="/forgot-password" element={<MainLayout><ForgotPassword/></MainLayout>} />
+        <Route path="/forgot-password" element={<MainLayout><ForgotPassword /></MainLayout>} />
         <Route path="/profile" element={<MainLayout><ProfilePage /></MainLayout>} />
         <Route path="*" element={<MainLayout><NotFoundPage /></MainLayout>} />
 
