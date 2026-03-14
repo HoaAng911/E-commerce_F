@@ -1,7 +1,7 @@
 
 import { Cart } from 'src/cart/entity/cart.entity';
 import { Review } from 'src/review/entity/review.entity';
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany, OneToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany, OneToOne, DeleteDateColumn } from 'typeorm';
 
 @Entity('users')
 export class User {
@@ -48,4 +48,7 @@ export class User {
   reviews: Review[];
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 }

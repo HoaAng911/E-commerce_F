@@ -18,7 +18,11 @@ export class OrderService {
     private productRepository: Repository<Product>,
     private dataSource: DataSource,
   ) { }
-
+  private generateOrderCode(): string {
+    const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+    const randomStr = Math.random().toString(36).substring(2, 6).toUpperCase();
+    return `ORD-${date}-${randomStr}`;
+  }
   async createOrder(userId: string, dto: CreateOrderDto) {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
@@ -30,7 +34,7 @@ export class OrderService {
         where: { user: { id: userId } },
         relations: ['items', 'items.product'],
       });
-
+      const shippingFee = 30000;
       const selectedItems = cart?.items.filter(item => item.selected) || [];
       if (selectedItems.length === 0) {
         throw new BadRequestException('Giỏ hàng trống hoặc không có sản phẩm nào được chọn');
@@ -47,8 +51,10 @@ export class OrderService {
 
       // 3. Tạo đơn hàng mới
       const order = queryRunner.manager.create(Order, {
+        orderCode: this.generateOrderCode(),
         user: { id: userId },
-        totalAmount,
+        totalAmount: totalAmount + shippingFee,
+        shippingFee: shippingFee,
         fullName: dto.fullName,
         phone: dto.phone,
         address: dto.address,
@@ -66,6 +72,7 @@ export class OrderService {
         return queryRunner.manager.create(OrderItem, {
           order: savedOrder,
           product: item.product,
+          productName: item.product.name,
           quantity: item.quantity,
           price: item.price,
           color: item.color,
@@ -106,45 +113,45 @@ export class OrderService {
   }
 
   async getOrderById(orderId: string, userId: string) {
-  const order = await this.orderRepository.findOne({
-    where: { id: orderId, user: { id: userId } },
-    relations: ['items', 'items.product'],
-  });
+    const order = await this.orderRepository.findOne({
+      where: { id: orderId, user: { id: userId } },
+      relations: ['items', 'items.product'],
+    });
 
-  if (!order) {
-    throw new NotFoundException('Không tìm thấy đơn hàng');
-  }
-  return order;
-}
-
-// Hủy đơn hàng
-async cancelOrder(orderId: string, userId: string) {
-  const order = await this.getOrderById(orderId, userId);
-
-  if (order.status !== 'pending') {
-    throw new BadRequestException('Chỉ có thể hủy đơn hàng đang chờ xử lý');
-  }
-
-  // Hoàn trả tồn kho nếu cần thiết
-  for (const item of order.items) {
-    if (item.product) {
-      await this.productRepository.update(item.product.id, {
-        stock: item.product.stock + item.quantity,
-        soldCount: item.product.soldCount - item.quantity,
-      });
+    if (!order) {
+      throw new NotFoundException('Không tìm thấy đơn hàng');
     }
+    return order;
   }
 
-  order.status = OrderStatus.CANCELLED;
-  return this.orderRepository.save(order);
-}
-// Cập nhật trạng thái đơn hàng
+  // Hủy đơn hàng
+  async cancelOrder(orderId: string, userId: string) {
+    const order = await this.getOrderById(orderId, userId);
+
+    if (order.status !== 'pending') {
+      throw new BadRequestException('Chỉ có thể hủy đơn hàng đang chờ xử lý');
+    }
+
+    // Hoàn trả tồn kho nếu cần thiết
+    for (const item of order.items) {
+      if (item.product) {
+        await this.productRepository.update(item.product.id, {
+          stock: item.product.stock + item.quantity,
+          soldCount: item.product.soldCount - item.quantity,
+        });
+      }
+    }
+
+    order.status = OrderStatus.CANCELLED;
+    return this.orderRepository.save(order);
+  }
+  // Cập nhật trạng thái đơn hàng
   async updateOrderStatus(orderId: string, status: OrderStatus, userId?: string) {
     const whereCondition: any = { id: orderId };
     if (userId) {
       whereCondition.user = { id: userId };
     }
-    
+
     const order = await this.orderRepository.findOne({
       where: whereCondition,
       relations: ['items', 'items.product'],
@@ -156,5 +163,13 @@ async cancelOrder(orderId: string, userId: string) {
 
     order.status = status;
     return this.orderRepository.save(order);
+  }
+  async softDeleteOrder(orderId: string, userId: string) {
+    const order = await this.getOrderById(orderId, userId);
+    // Chỉ cho phép xóa nếu đơn đã hoàn thành hoặc đã hủy
+    if (order.status !== OrderStatus.DELIVERED && order.status !== OrderStatus.CANCELLED) {
+      throw new BadRequestException('Không thể xóa đơn hàng đang trong quá trình vận chuyển');
+    }
+    return this.orderRepository.softDelete(orderId);
   }
 }

@@ -2,25 +2,26 @@ import { useState } from 'react'
 import './App.css'
 import MainLayout from './components/layout/MainLayout'
 import AdminLayout from './components/layout/AdminLayout' 
-import UserDashboard from './components/layout/dashboard/UserDashboard'
-import AdminDashboard from './components/layout/dashboard/AdminDashboard'
-import AdminProductPage from './components/layout/dashboard/AdminProductPage'
-import AdminOrderPage from './components/layout/dashboard/AdminOrderPage'
+import UserDashboard from './pages/admin/UserDashboard'
+import AdminDashboard from './pages/admin/AdminDashboard'
+import AdminProductPage from './pages/admin/AdminProductPage'
+import AdminOrderPage from './pages/admin/AdminOrderPage'
+import AdminArticlePage from './pages/admin/AdminArticlePage'
 import Home from './pages/Home'
-import LoginPage from './components/auth/Login'
-import SignupPage from './components/auth/Signup'
+import LoginPage from './pages/auth/LoginPage'
+import SignupPage from './pages/auth/SignupPage'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
-import NotFoundPage from './components/layout/NotFoundPage'
-import ProductsPage from './components/product/productPage/ProductPage'
+import NotFoundPage from './pages/NotFoundPage'
+import ProductsPage from './pages/ProductsPage'
 import ProfilePage from './pages/Profile'
-import ProductDetail from './components/product/ProductDetail'
-import CartPage from './components/cart/CartPage'
+import ProductDetail from './pages/ProductDetailPage'
+import CartPage from './pages/CartPage'
 import CheckoutPage from './pages/CheckoutPage'
-import OrderSuccessPage from './components/order/OrderSuccessPage'
+import OrderSuccessPage from './pages/OrderSuccessPage'
 import OrderPage from './pages/OrderPage'
-import OrderDetail from './components/order/OrderDetail'
-import ForgotPassword from './components/auth/ForgotPassword'
-import ArticleList from './components/layout/ArticleList'
+import OrderDetail from './pages/OrderDetailPage'
+import ForgotPassword from './pages/auth/ForgotPasswordPage'
+import ArticleList from './components/common/ArticleList'
 import ArticleDetail from './pages/ArticleDetail'
 import useAuthStore from './store/auth.store' 
 
@@ -54,11 +55,11 @@ function App() {
             user?.role === 'ADMIN' ? <AdminLayout /> : <Navigate to="/" replace />
           } 
         >
-          {/* Các route con sẽ render vào vị trí {children} hoặc <Outlet /> */}
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="users" element={<UserDashboard />} />
           <Route path="products" element={<AdminProductPage />} />
           <Route path="orders" element={<AdminOrderPage />} />
+          <Route path="articles" element={<AdminArticlePage />} />
           <Route index element={<Navigate to="dashboard" replace />} /> 
         </Route>
 

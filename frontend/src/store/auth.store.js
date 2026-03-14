@@ -126,7 +126,7 @@ const useAuthStore = create(
 
           return access_token;
         } catch (error) {
-          // Nếu refresh thất bại, đăng xuất
+          // Chỉ logout nếu thực sự lỗi refresh (ví dụ refresh token hết hạn)
           get().logout();
           throw error;
         }

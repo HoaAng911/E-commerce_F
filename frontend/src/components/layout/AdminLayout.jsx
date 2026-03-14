@@ -6,7 +6,8 @@ import {
   Package,
   ShoppingCart,
   LogOut,
-  UserCircle
+  UserCircle,
+  FileText
 } from 'lucide-react';
 import useAuthStore from '../../store/auth.store';
 
@@ -20,6 +21,7 @@ const AdminLayout = ({ children }) => {
     { name: 'Người dùng', path: '/admin/users', icon: <Users size={20} /> },
     { name: 'Sản phẩm', path: '/admin/products', icon: <Package size={20} /> },
     { name: 'Đơn hàng', path: '/admin/orders', icon: <ShoppingCart size={20} /> },
+    { name: 'Bài viết', path: '/admin/articles', icon: <FileText size={20} /> },
   ];
 
   const handleLogout = () => {

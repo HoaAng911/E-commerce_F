@@ -11,15 +11,23 @@ export class OrderItem {
   @JoinColumn({ name: 'order_id' })
   order: Order;
 
-  @ManyToOne(() => Product, { nullable: true })
+  @ManyToOne(() => Product, { nullable: true, onDelete: 'SET NULL' })
   @JoinColumn({ name: 'product_id' })
   product: Product;
+
+  // --- SNAPSHOT DATA ---
+  @Column()
+  productName: string; // Lưu tên SP lúc mua, lỡ sau này admin đổi tên SP gốc
 
   @Column()
   quantity: number;
 
   @Column('decimal', { precision: 10, scale: 2 })
-  price: number; // Giá tại thời điểm đặt hàng
+  price: number; // Giá bán lẻ tại thời điểm đặt hàng
+
+  @Column('decimal', { precision: 10, scale: 2, default: 0 })
+  discountAmount: number; // Lưu số tiền được giảm giá trên mỗi item
+
 
   @Column({ nullable: true })
   size: string;

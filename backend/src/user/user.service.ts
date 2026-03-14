@@ -35,24 +35,33 @@ export class UserService {
     Object.assign(user, dto)
     return this.userRepository.save(user)
   }
-  async findAll(): Promise<User[]> {
-    const user = await this.userRepository.find()
-    return user
+  async findAll(page: number = 1, limit: number = 10) {
+    const skip = (page - 1) * limit;
+    const [data, total] = await this.userRepository.findAndCount({
+      skip,
+      take: limit,
+      order: { createdAt: 'DESC' }
+    });
+
+    return {
+      data,
+      total,
+      page,
+      lastPage: Math.ceil(total / limit)
+    };
   }
+
   async findOne(id: string): Promise<User> {
     const user = await this.userRepository.findOneBy({ id })
     if (!user) {
       throw new NotFoundException('tai khoan khong ton tai')
     }
-    return user
+    return user;
   }
-  async delete(id: string): Promise<void> {
-    const user = await this.findOne(id)
-    if (!user) {
-      throw new NotFoundException('tai khoan khong ton tai')
-    }
-    await this.userRepository.delete(id)
 
+  async delete(id: string): Promise<void> {
+    const user = await this.findOne(id);
+    await this.userRepository.softDelete(id);
   }
   async findByEmail(email: string): Promise<User | null> {
   return this.userRepository.findOneBy({ email });

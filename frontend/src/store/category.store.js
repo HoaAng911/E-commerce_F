@@ -16,7 +16,7 @@ const useCategoryStore = create((set, get) => ({
     set({ loading: true, error: null });
     try {
       const response = await categoryApi.getAll();
-      // NestJS thường trả về dữ liệu trực tiếp trong response.data
+    
       set({ categories: response.data, loading: false });
     } catch (error) {
       set({ error: error.message, loading: false });
@@ -39,7 +39,7 @@ const useCategoryStore = create((set, get) => ({
     set({ loading: true });
     try {
       const response = await categoryApi.create(data);
-      // Sau khi tạo thành công, cập nhật lại danh sách local
+
       set((state) => ({ 
         categories: [...state.categories, response.data],
         loading: false 

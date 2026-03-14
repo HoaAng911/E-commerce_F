@@ -15,13 +15,19 @@ const OrderPage = () => {
   const getStatusInfo = (status) => {
     switch (status?.toLowerCase()) {
       case 'pending':
-        return { text: 'Đang xử lý', color: 'text-amber-600', icon: <Clock className="w-4 h-4" /> };
-      case 'cancelled':
-        return { text: 'Đã hủy', color: 'text-red-600', icon: <XCircle className="w-4 h-4" /> };
+        return { text: 'Chờ xử lý', color: 'text-amber-600', icon: <Clock className="w-4 h-4" /> };
+      case 'confirmed':
+        return { text: 'Đã xác nhận', color: 'text-purple-600', icon: <CheckCircle2 className="w-4 h-4" /> };
+      case 'shipping':
+        return { text: 'Đang giao hàng', color: 'text-blue-600', icon: <Package className="w-4 h-4" /> };
       case 'delivered':
         return { text: 'Đã giao hàng', color: 'text-green-600', icon: <CheckCircle2 className="w-4 h-4" /> };
+      case 'cancelled':
+        return { text: 'Đã hủy', color: 'text-red-600', icon: <XCircle className="w-4 h-4" /> };
+      case 'returned':
+        return { text: 'Đã trả hàng', color: 'text-gray-600', icon: <RefreshCw className="w-4 h-4" /> };
       default:
-        return { text: 'Đã xác nhận', color: 'text-blue-600', icon: <Package className="w-4 h-4" /> };
+        return { text: 'Chờ xử lý', color: 'text-amber-600', icon: <Clock className="w-4 h-4" /> };
     }
   };
 
@@ -61,7 +67,7 @@ const OrderPage = () => {
                       </span>
                     </div>
                     <div className="font-mono text-xs tracking-tighter text-gray-400 uppercase">
-                      ID: #{order.id.slice(0, 8)}
+                      Mã đơn: {order.orderCode || `#${order.id.slice(0, 8)}`}
                     </div>
                   </div>
 

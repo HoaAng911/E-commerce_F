@@ -6,7 +6,8 @@ import {
   Param, 
   UseGuards, 
   Req, 
-  Patch 
+  Patch, 
+  Delete
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -58,7 +59,13 @@ export class OrderController {
     @Param('id') orderId: string, 
     @Body('status') status: any
   ) {
-    // Lưu ý: Đáng lẽ cần Check @Roles('ADMIN') ở đây, nhưng tạm thời bỏ qua để khớp MVP
+    
     return this.orderService.updateOrderStatus(orderId, status);
+  }
+  @Delete(':id')
+  async deleteOrder(@Req() req, @Param('id') orderId: string) {
+    const userId = req.user.sub;
+    // Gọi hàm softDelete mà chúng ta đã thảo luận trong Service
+    return this.orderService.softDeleteOrder(orderId, userId);
   }
 }

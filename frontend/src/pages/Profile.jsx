@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import useAuthStore from '../store/auth.store';
-import ProfileHeader from '../components/auth/ProfileHeader';
-import ProfileForm from '../components/auth/ProfileForm';
-import ProfileInfo from '../components/auth/ProfileInfo';
+import ProfileHeader from '../components/profile/ProfileHeader';
+import ProfileForm from '../components/profile/ProfileForm';
+import ProfileInfo from '../components/profile/ProfileInfo';
 import { User, LogOut, Loader2 } from 'lucide-react';
 
 const ProfilePage = () => {

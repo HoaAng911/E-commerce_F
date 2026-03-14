@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -23,8 +24,11 @@ export class UserController {
 
   // Lấy danh sách user
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  findAll(
+    @Query('page') page: string,
+    @Query('limit') limit: string
+  ) {
+    return this.userService.findAll(Number(page) || 1, Number(limit) || 10);
   }
 
   // Lấy chi tiết user theo id

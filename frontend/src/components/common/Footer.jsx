@@ -1,3 +1,4 @@
+// components/common/Footer.jsx
 import React from 'react';
 import {
   Facebook,

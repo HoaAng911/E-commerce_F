@@ -1,10 +1,10 @@
-import { Banner } from "../components/layout/Banner";
-import { BrandCategory } from "../components/layout/BrandCategory";
+import { Banner } from "../components/common/Banner";
+import { BrandCategory } from "../components/common/BrandCategory";
 import FeaturedProducts from "../components/product/FeaturedProducts";
 import NewArrivals from "../components/product/NewArrivals";
-import PromoBanner from "../components/layout/PromoBanner";
+import PromoBanner from "../components/common/PromoBanner";
 import ArticleDetail from "./ArticleDetail";
-import ArticleList from "../components/layout/ArticleList";
+import ArticleList from "../components/common/ArticleList";
 
 export default function Home() {
   return (

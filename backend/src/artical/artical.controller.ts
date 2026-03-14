@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Req, UseGuards, Patch, Delete } from "@nestjs/common";
 import { ArticleService } from "./artical.service";
 import { AuthGuard } from "@nestjs/passport";
 import { CreateArticleDto } from "./dto/create-article.dto";
@@ -19,8 +19,23 @@ export class ArticleController {
     return this.articleService.findAll();
   }
 
+  @Get('admin/all')
+  findAllAdmin() {
+    return this.articleService.findAllAdmin();
+  }
+
   @Get(':slug')
   findOne(@Param('slug') slug: string) {
     return this.articleService.findBySlug(slug);
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() dto: Partial<CreateArticleDto>) {
+    return this.articleService.update(id, dto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.articleService.remove(id);
   }
 }

@@ -30,6 +30,12 @@ const orderApi = {
   getAllOrders: async () => {
     const response = await axios.get('/orders/all');
     return response.data;
+  },
+
+  // 6. Cập nhật trạng thái đơn hàng (Admin)
+  updateOrderStatus: async (orderId, status) => {
+    const response = await axios.patch(`/orders/${orderId}/status`, { status });
+    return response.data;
   }
 };
 

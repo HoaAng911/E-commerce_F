@@ -1,4 +1,3 @@
-// utils/productUtils.js
 export const formatProduct = (product) => {
   if (!product) return null;
 

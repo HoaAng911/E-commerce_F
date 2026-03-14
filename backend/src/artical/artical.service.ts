@@ -32,6 +32,13 @@ export class ArticleService {
     });
   }
 
+  async findAllAdmin() {
+    return this.articleRepo.find({
+      relations: ['author'],
+      order: { createdAt: 'DESC' },
+    });
+  }
+
   async findBySlug(slug: string) {
     const article = await this.articleRepo.findOne({
       where: { slug },
@@ -45,5 +52,23 @@ export class ArticleService {
     await this.articleRepo.save(article);
     
     return article;
+  }
+
+  async update(id: string, dto: Partial<CreateArticleDto>) {
+    const article = await this.articleRepo.findOne({ where: { id } });
+    if (!article) throw new NotFoundException('Không tìm thấy bài viết');
+
+    if (dto.title && dto.title !== article.title) {
+       article.slug = slugify(dto.title, { lower: true, locale: 'vi' }) + '-' + Date.now();
+    }
+
+    Object.assign(article, dto);
+    return this.articleRepo.save(article);
+  }
+
+  async remove(id: string) {
+    const result = await this.articleRepo.delete(id);
+    if (result.affected === 0) throw new NotFoundException('Không tìm thấy bài viết');
+    return { success: true };
   }
 }

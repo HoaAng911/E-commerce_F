@@ -53,8 +53,8 @@ const ArticleDetail = () => {
 
         {/* Rich Text Content */}
         <div 
-          className="prose prose-xl prose-slate max-w-none prose-headings:uppercase prose-headings:italic prose-headings:font-black prose-headings:tracking-tighter prose-p:text-gray-800 prose-p:leading-relaxed prose-p:text-lg"
-          dangerouslySetInnerHTML={{ __html: currentArticle.content }} //
+          className="prose prose-lg md:prose-xl prose-slate max-w-none prose-headings:uppercase prose-headings:italic prose-headings:font-black prose-headings:tracking-tighter prose-p:text-gray-800 prose-p:leading-relaxed prose-img:rounded-xl shadow-sm bg-white p-8 rounded-2xl border border-gray-100"
+          dangerouslySetInnerHTML={{ __html: currentArticle.content }}
         />
       </div>
     </div>
