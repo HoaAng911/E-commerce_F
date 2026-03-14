@@ -24,6 +24,12 @@ const orderApi = {
   cancelOrder: async (orderId) => {
     const response = await axios.patch(`/orders/${orderId}/cancel`);
     return response.data;
+  },
+
+  // 5. Lấy danh sách tất cả đơn hàng (cho Admin dashboard)
+  getAllOrders: async () => {
+    const response = await axios.get('/orders/all');
+    return response.data;
   }
 };
 

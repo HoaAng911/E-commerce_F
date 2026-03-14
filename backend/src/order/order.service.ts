@@ -97,6 +97,14 @@ export class OrderService {
       order: { createdAt: 'DESC' },
     });
   }
+
+  async getAllOrders() {
+    return this.orderRepository.find({
+      relations: ['items', 'items.product', 'user'],
+      order: { createdAt: 'DESC' },
+    });
+  }
+
   async getOrderById(orderId: string, userId: string) {
   const order = await this.orderRepository.findOne({
     where: { id: orderId, user: { id: userId } },
@@ -130,4 +138,23 @@ async cancelOrder(orderId: string, userId: string) {
   order.status = OrderStatus.CANCELLED;
   return this.orderRepository.save(order);
 }
+// Cập nhật trạng thái đơn hàng
+  async updateOrderStatus(orderId: string, status: OrderStatus, userId?: string) {
+    const whereCondition: any = { id: orderId };
+    if (userId) {
+      whereCondition.user = { id: userId };
+    }
+    
+    const order = await this.orderRepository.findOne({
+      where: whereCondition,
+      relations: ['items', 'items.product'],
+    });
+
+    if (!order) {
+      throw new NotFoundException('Không tìm thấy đơn hàng');
+    }
+
+    order.status = status;
+    return this.orderRepository.save(order);
+  }
 }
