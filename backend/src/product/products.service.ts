@@ -84,9 +84,12 @@ export class ProductsService {
   }
 
   // Giữ nguyên hàm findAll cũ
+  // Cập nhật hàm findAll để tránh trả về mảng quá lớn
   async findAll(): Promise<Product[]> {
     return await this.productsRepository.find({
       where: { isActive: true },
+      take: 50, // Giới hạn an toàn để tránh "sập" hệ thống
+      order: { createdAt: 'DESC' },
     });
   }
 
@@ -98,7 +101,16 @@ export class ProductsService {
 
   async update(id: string, updateProductDto: UpdateProductDto): Promise<Product> {
     const product = await this.findOne(id);
-    Object.assign(product, updateProductDto);
+    const { category, ...productData } = updateProductDto;
+
+    // Gán các trường cơ bản
+    Object.assign(product, productData);
+
+    // Xử lý riêng trường category nếu có gửi lên
+    if (category) {
+      product.categoryId = category;
+    }
+
     return await this.productsRepository.save(product);
   }
 

@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Article } from './entity/artical.entity';
+import { Article } from './entity/article.entity';
 import { CreateArticleDto } from './dto/create-article.dto';
 import slugify from 'slugify';
 
@@ -10,17 +10,17 @@ export class ArticleService {
   constructor(
     @InjectRepository(Article)
     private articleRepo: Repository<Article>,
-  ) {}
+  ) { }
 
   async create(dto: CreateArticleDto, authorId: any) {
     const slug = slugify(dto.title, { lower: true, locale: 'vi' }) + '-' + Date.now();
-    
+
     const article = this.articleRepo.create({
       ...dto,
       slug,
       author: { id: authorId } as any,
     });
-    
+
     return this.articleRepo.save(article);
   }
 
@@ -46,11 +46,11 @@ export class ArticleService {
     });
 
     if (!article) throw new NotFoundException('Không tìm thấy bài viết');
-    
+
     // Tăng lượt xem mỗi khi đọc
     article.views += 1;
     await this.articleRepo.save(article);
-    
+
     return article;
   }
 
@@ -59,7 +59,7 @@ export class ArticleService {
     if (!article) throw new NotFoundException('Không tìm thấy bài viết');
 
     if (dto.title && dto.title !== article.title) {
-       article.slug = slugify(dto.title, { lower: true, locale: 'vi' }) + '-' + Date.now();
+      article.slug = slugify(dto.title, { lower: true, locale: 'vi' }) + '-' + Date.now();
     }
 
     Object.assign(article, dto);

@@ -40,13 +40,35 @@ export class OrderService {
         throw new BadRequestException('Giỏ hàng trống hoặc không có sản phẩm nào được chọn');
       }
 
-      // 2. Kiểm tra tồn kho và tính tổng tiền
+      // 2. Kiểm tra tồn kho (có dùng Lock) và tính tổng tiền
       let totalAmount = 0;
+      const updatedProducts: Product[] = [];
+
       for (const item of selectedItems) {
-        if (item.product.stock < item.quantity) {
-          throw new BadRequestException(`Sản phẩm ${item.product.name} không đủ tồn kho`);
+        // Tải lại product từ DB với Pessimistic Write Lock và load Category
+        const product = await queryRunner.manager.findOne(Product, {
+          where: { id: item.product.id },
+          relations: ['category'],
+          lock: { mode: 'pessimistic_write' },
+        });
+
+        if (!product || !product.isActive || !product.category?.isActive) {
+          throw new BadRequestException(`Sản phẩm ${product?.name || 'không xác định'} không còn khả dụng`);
         }
+
+        if (product.stock < item.quantity) {
+          throw new BadRequestException(`Sản phẩm ${product.name} không đủ tồn kho`);
+        }
+
         totalAmount += Number(item.price) * item.quantity;
+        
+        // Cập nhật số lượng trong đối tượng product đã được lock
+        product.stock -= item.quantity;
+        product.soldCount += item.quantity;
+        updatedProducts.push(product);
+        
+        // Gán lại product đã cập nhật vào item để dùng cho OrderItem ở bước sau
+        item.product = product;
       }
 
       // 3. Tạo đơn hàng mới
@@ -63,12 +85,8 @@ export class OrderService {
       });
       const savedOrder = await queryRunner.manager.save(order);
 
-      // 4. Tạo OrderItems & Trừ tồn kho
+      // 4. Tạo OrderItems
       const orderItems = selectedItems.map(item => {
-        // Cập nhật số lượng tồn kho và số lượng đã bán
-        item.product.stock -= item.quantity;
-        item.product.soldCount += item.quantity;
-
         return queryRunner.manager.create(OrderItem, {
           order: savedOrder,
           product: item.product,
@@ -81,7 +99,7 @@ export class OrderService {
       });
 
       await queryRunner.manager.save(OrderItem, orderItems);
-      await queryRunner.manager.save(Product, selectedItems.map(i => i.product));
+      await queryRunner.manager.save(Product, updatedProducts);
 
       // 5. Xóa các item đã đặt khỏi giỏ hàng
       await queryRunner.manager.remove(selectedItems);

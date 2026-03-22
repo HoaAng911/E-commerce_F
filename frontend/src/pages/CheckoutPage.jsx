@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { ChevronLeft, CreditCard, Truck } from 'lucide-react';
 import useCartStore from '../store/cart.store';
 import useOrderStore from '../store/order.store';
-import { toast } from 'react-hot-toast';
+import { toast } from 'sonner';
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
@@ -34,6 +34,10 @@ const CheckoutPage = () => {
     e.preventDefault();
     try {
       const order = await placeOrder(formData);
+      
+      // Intentional Delay để UX mượt hơn (~400ms)
+      await new Promise(resolve => setTimeout(resolve, 400));
+      
       toast.success('Đặt hàng thành công!');
       navigate(`/order-success/${order.id}`);
     } catch (error) {

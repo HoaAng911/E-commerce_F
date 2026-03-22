@@ -76,7 +76,7 @@ const ProductCard = ({
         <img 
           src={image} 
           alt={title}
-          className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
+          className="object-contain w-full h-full p-2 transition-transform duration-500 group-hover:scale-110"
           loading="lazy"
         />
         

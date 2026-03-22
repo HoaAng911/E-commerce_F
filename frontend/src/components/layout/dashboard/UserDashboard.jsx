@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Trash2, ShieldCheck, ShieldAlert, UserPlus, Search } from 'lucide-react';
-import axios from 'axios';
+import userService from '../../../api/user.service';
+import { toast } from 'sonner';
 
 const UserDashboard = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Gọi API lấy danh sách từ @Get() findAll() của UserController
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/users');
-      setUsers(response.data);
+      const response = await userService.getAllUsers();
+      setUsers(response.data); // backend trả về mảng user ở trong object hoặc root array tùy API
     } catch (error) {
       console.error("Error fetching users:", error);
     } finally {
@@ -23,12 +23,10 @@ const UserDashboard = () => {
   // Gọi @Patch(':id') update() để thay đổi isActive
   const toggleUserStatus = async (id, currentStatus) => {
     try {
-      await axios.patch(`http://localhost:3000/users/${id}`, {
-        isActive: !currentStatus
-      });
+      await userService.updateUserStatus(id, !currentStatus);
       fetchUsers(); // Tải lại danh sách
     } catch (error) {
-      alert("Cập nhật trạng thái thất bại");
+      toast.error("Cập nhật trạng thái thất bại");
     }
   };
 
@@ -36,10 +34,10 @@ const UserDashboard = () => {
   const deleteUser = async (id) => {
     if (window.confirm("BẠN CÓ CHẮC MUỐN XÓA THÀNH VIÊN NÀY?")) {
       try {
-        await axios.delete(`http://localhost:3000/users/${id}`);
-        setUsers(users.filter(u => u.id !== id));
+        await userService.deleteUser(id);
+        toast.success("Xóa thành viên thành công");
       } catch (error) {
-        alert("Xóa thất bại");
+        toast.error("Xóa thất bại");
       }
     }
   };

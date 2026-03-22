@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { ChevronLeft, MapPin, CreditCard, Clock, CheckCircle2, XCircle, AlertTriangle } from 'lucide-react';
 import useOrderStore from '../store/order.store';
-import { toast } from 'react-hot-toast';
+import { toast } from 'sonner';
 
 const OrderDetailPage = () => {
   const { id } = useParams();

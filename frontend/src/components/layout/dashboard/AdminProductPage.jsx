@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Package, Plus, Edit, Trash2, X, Image as ImageIcon } from 'lucide-react';
+import { toast } from 'sonner';
 import axios from '../../../lib/axios';
 import productApi from '../../../api/product.service';
 
@@ -119,7 +120,7 @@ const AdminProductPage = () => {
       fetchData(); // Refresh the list
     } catch (error) {
       console.error("Error saving product:", error);
-      alert("Error saving product. Check console.");
+      toast.error(error.response?.data?.message || "Lỗi khi lưu sản phẩm");
     }
   };
 

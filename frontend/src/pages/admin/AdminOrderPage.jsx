@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Package, Search, ChevronDown, Check, X, RefreshCw } from 'lucide-react';
+import { toast } from 'sonner';
 import useOrderStore from '../../store/order.store';
 
 const AdminOrderPage = () => {
@@ -31,9 +32,11 @@ const AdminOrderPage = () => {
   const handleStatusChange = async (orderId, newStatus) => {
     try {
       await updateOrderStatus(orderId, newStatus);
+      toast.success('Cập nhật trạng thái đơn hàng thành công!');
       setEditingOrderId(null);
     } catch (error) {
       console.error("Failed to update status", error);
+      toast.error(error.response?.data?.message || "Lỗi khi cập nhật trạng thái");
     }
   };
 

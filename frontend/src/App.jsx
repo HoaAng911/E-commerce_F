@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Toaster } from 'sonner'
 import './App.css'
 import MainLayout from './components/layout/MainLayout'
 import AdminLayout from './components/layout/AdminLayout' 
@@ -7,6 +8,7 @@ import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminProductPage from './pages/admin/AdminProductPage'
 import AdminOrderPage from './pages/admin/AdminOrderPage'
 import AdminArticlePage from './pages/admin/AdminArticlePage'
+import AdminMediaPage from './components/layout/dashboard/AdminMediaPage'
 import Home from './pages/Home'
 import LoginPage from './pages/auth/LoginPage'
 import SignupPage from './pages/auth/SignupPage'
@@ -23,6 +25,7 @@ import OrderDetail from './pages/OrderDetailPage'
 import ForgotPassword from './pages/auth/ForgotPasswordPage'
 import ArticleList from './components/common/ArticleList'
 import ArticleDetail from './pages/ArticleDetail'
+import AdminRoute from './components/routes/AdminRoute'
 import useAuthStore from './store/auth.store' 
 
 function App() {
@@ -47,24 +50,22 @@ function App() {
         <Route path="/forgot-password" element={<MainLayout><ForgotPassword /></MainLayout>} />
         <Route path="/profile" element={<MainLayout><ProfilePage /></MainLayout>} />
 
-        {/* --- ADMIN ROUTES (Sử dụng AdminLayout) --- */}
-        {/* Chỉ cho phép vào nếu là ADMIN, nếu không thì đá về trang chủ */}
-        <Route 
-          path="/admin" 
-          element={
-            user?.role === 'ADMIN' ? <AdminLayout /> : <Navigate to="/" replace />
-          } 
-        >
-          <Route path="dashboard" element={<AdminDashboard />} />
-          <Route path="users" element={<UserDashboard />} />
-          <Route path="products" element={<AdminProductPage />} />
-          <Route path="orders" element={<AdminOrderPage />} />
-          <Route path="articles" element={<AdminArticlePage />} />
-          <Route index element={<Navigate to="dashboard" replace />} /> 
+        {/* --- ADMIN ROUTES (Sử dụng AdminRoute để bảo vệ) --- */}
+        <Route path="/admin" element={<AdminRoute />}>
+          <Route element={<AdminLayout />}>
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="users" element={<UserDashboard />} />
+            <Route path="products" element={<AdminProductPage />} />
+            <Route path="orders" element={<AdminOrderPage />} />
+            <Route path="articles" element={<AdminArticlePage />} />
+            <Route path="media" element={<AdminMediaPage />} />
+            <Route index element={<Navigate to="dashboard" replace />} /> 
+          </Route>
         </Route>
 
         <Route path="*" element={<MainLayout><NotFoundPage /></MainLayout>} />
       </Routes>
+      <Toaster richColors closeButton position="top-right" duration={3000} />
     </BrowserRouter>
   )
 }

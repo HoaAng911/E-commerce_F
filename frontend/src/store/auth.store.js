@@ -157,6 +157,16 @@ const useAuthStore = create(
         });
       },
 
+      // Cập nhật thông tin auth từ OAuth (Google, Facebook)
+      setOAuthUser: (user, accessToken) => {
+        set({
+          user,
+          accessToken,
+          isLoading: false,
+          error: null
+        });
+      },
+
       isAuthenticated: () => {
         return !!get().accessToken && !!get().user;
       },

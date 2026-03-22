@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Package, Search, ChevronDown, Check, X } from 'lucide-react';
 import orderApi from '../../../api/order.service';
+import { toast } from 'sonner';
 
 const AdminOrderPage = () => {
   const [orders, setOrders] = useState([]);
@@ -48,7 +49,7 @@ const AdminOrderPage = () => {
       fetchOrders();
     } catch (error) {
       console.error("Failed to update status", error);
-      alert("Failed to update order status. See console.");
+      toast.error(error.response?.data?.message || "Cập nhật trạng thái thất bại");
     }
   };
 

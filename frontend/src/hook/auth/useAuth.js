@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../../store/auth.store';
+import { toast } from 'sonner';
 
 export const useAuth = () => {
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ export const useAuth = () => {
     if (!validate(userData, 'signup')) return;
     try {
       await registerAction(userData);
-      alert('Đăng ký thành công!');
+      toast.success('Đăng ký thành công!');
       navigate('/login');
     } catch (err) {}
   };

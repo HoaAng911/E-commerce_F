@@ -6,6 +6,7 @@ import useReviewStore from '../../store/review.store';
 import { useParams } from 'react-router-dom';
 import ReviewSection from '../review/ReviewSection'
 import useAuthStore from '../../store/auth.store';
+import { toast } from 'sonner';
 const ProductDetail = () => {
   const { id } = useParams();
   const [selectedSize, setSelectedSize] = useState('');
@@ -25,7 +26,7 @@ const ProductDetail = () => {
     window.scrollTo(0, 0);
   }, [id]);
   const handleSendReview = async (data) => {
-    if (!user) return alert("Vui lòng đăng nhập để đánh giá");
+    if (!user) return toast.error("Vui lòng đăng nhập để đánh giá");
 
     await addReview({
       ...data,
@@ -63,7 +64,7 @@ const ProductDetail = () => {
             <div className="bg-[#f5f5f5] aspect-square overflow-hidden md:col-span-2">
               <img src={selectedProduct.mainImage} alt={selectedProduct.name} className="object-cover w-full h-full" />
             </div>
-            {selectedProduct.images?.map((img, index) => (
+            {selectedProduct.images?.slice(0, 3).map((img, index) => (
               <div key={index} className="bg-[#f5f5f5] aspect-square overflow-hidden">
                 <img src={img} alt={`${selectedProduct.name} ${index}`} className="object-cover w-full h-full" />
               </div>
@@ -137,7 +138,14 @@ const ProductDetail = () => {
             {/* Nút bấm Nike Style */}
             <div className="flex flex-col gap-3">
               <button
-                onClick={() => addToCart({ productId: selectedProduct.id, quantity, size: selectedSize, color: selectedColor })}
+                onClick={async () => {
+                  try {
+                    await addToCart({ productId: selectedProduct.id, quantity, size: selectedSize, color: selectedColor });
+                    toast.success("Đã thêm vào giỏ hàng!");
+                  } catch (err) {
+                    toast.error(err.message || "Không thể thêm vào giỏ hàng");
+                  }
+                }}
                 className="w-full py-5 font-bold tracking-widest text-white uppercase transition-all bg-black rounded-full hover:bg-gray-800 active:scale-95"
               >
                 Thêm vào giỏ hàng

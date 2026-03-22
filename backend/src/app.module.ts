@@ -1,4 +1,4 @@
-import { ArticalModule } from './artical/artical.module';
+import { ArticleModule } from './article/article.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { CategoriesModule } from './categories/categories.module';
@@ -20,19 +20,20 @@ import { APP_GUARD } from '@nestjs/core';
 import { OrderModule } from './order/order.module';
 import { Order } from './order/entity/order.entity';
 import { OrderItem } from './order/entity/order-item.entity';
-import { Article } from './artical/entity/artical.entity';
+import { Article } from './article/entity/article.entity';
 import { ReviewsModule } from './review/review.module';
-
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 @Module({
   imports: [
-    ReviewsModule,
-    ArticalModule, 
+    ArticleModule,
     AuthModule,
     UserModule,
     CategoriesModule,
     OrderModule,
     CartModule,
+    ReviewsModule,
+    CloudinaryModule,
     ConfigModule,
     ProductsModule,
     ConfigModule.forRoot({
@@ -60,17 +61,7 @@ import { ReviewsModule } from './review/review.module';
         username: config.get('database.username'),
         password: config.get('database.password'),
         database: config.get('database.database'),
-        entities: [
-          User,
-          Review,
-          Product,
-          Category,
-          CartItem,
-          Cart,
-          Order,
-          OrderItem,
-          Article
-        ],
+        autoLoadEntities: true,
         synchronize: true,
       }),
     }),

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FileText, Plus, Edit, Trash2, X, Image as ImageIcon, Eye } from 'lucide-react';
+import { toast } from 'sonner';
 import useArticleStore from '../../store/article.store';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
@@ -70,10 +71,11 @@ const AdminArticlePage = () => {
       } else {
         await createArticle(formData);
       }
+      toast.success(editingArticle ? 'Cập nhật bài viết thành công!' : 'Đăng bài viết mới thành công!');
       handleCloseModal();
     } catch (error) {
       console.error("Error saving article:", error);
-      alert("Lỗi khi lưu bài viết.");
+      toast.error(error.response?.data?.message || "Lỗi khi lưu bài viết.");
     }
   };
 
@@ -81,8 +83,10 @@ const AdminArticlePage = () => {
     if (window.confirm("Bạn có chắc chắn muốn xóa bài viết này không?")) {
       try {
         await deleteArticle(id);
+        toast.success('Đã xóa bài viết thành công');
       } catch (error) {
         console.error("Error deleting article:", error);
+        toast.error('Có lỗi xảy ra khi xóa bài viết');
       }
     }
   };

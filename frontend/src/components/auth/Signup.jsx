@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../../store/auth.store'
+import { toast } from 'sonner';
 
 export default function RegisterForm() {
   const { register, isLoading, error, setError } = useAuthStore()
@@ -64,7 +65,7 @@ export default function RegisterForm() {
 
       };
       const response = await register(userData);
-      alert('Đăng ký thành công! Vui lòng đăng nhập.');
+      toast.success('Đăng ký thành công! Vui lòng đăng nhập.');
       navigate('/login');
 
     } catch (err) {

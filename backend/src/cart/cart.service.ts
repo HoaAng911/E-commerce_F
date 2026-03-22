@@ -51,13 +51,14 @@ export class CartService {
       cart.items = [];
     }
 
-    // Lấy sản phẩm
+    // Lấy sản phẩm (kiểm tra cả status của Product và Category)
     const product = await this.productRepo.findOne({
       where: { id: dto.productId },
+      relations: ['category'],
     });
 
-    if (!product) {
-      throw new NotFoundException('Sản phẩm không tồn tại');
+    if (!product || !product.isActive || !product.category?.isActive) {
+      throw new NotFoundException('Sản phẩm không tồn tại hoặc đã ngừng kinh doanh');
     }
 
     // Kiểm tra tồn kho

@@ -4,10 +4,11 @@ import { useNavigate, Link } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 import { FaFacebookF } from 'react-icons/fa';
 import { GoogleLogin } from '@react-oauth/google';
+import { toast } from 'sonner';
 import useAuthStore from '../../store/auth.store';
 
 export default function LoginPage() {
-  const { login, isLoading, error, setError, setLoading } = useAuthStore();
+  const { login, setOAuthUser, isLoading, error, setError, setLoading } = useAuthStore();
   const [form, setForm] = useState({ email: '', password: '' });
   const [localErrors, setLocalErrors] = useState({});
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ export default function LoginPage() {
         password: form.password,
       };
       await login(userData);
-      alert('Đăng nhập thành công');
+      toast.success('Đăng nhập thành công');
       navigate('/');
     } catch (err) {
       console.error('Đăng nhập thất bại:', err);
@@ -72,13 +73,9 @@ export default function LoginPage() {
         if (event.data.type === 'facebook-login-success') {
           const { access_token, user } = event.data;
 
-          useAuthStore.setState({
-            accessToken: access_token,
-            user: user,
-            isLoading: false,
-          });
+          setOAuthUser(user, access_token);
 
-          alert('Đăng nhập bằng Facebook thành công!');
+          toast.success('Đăng nhập bằng Facebook thành công!');
           navigate('/');
           window.removeEventListener('message', messageHandler);
         } else if (event.data.type === 'facebook-login-error') {
@@ -222,13 +219,9 @@ export default function LoginPage() {
 
                   const data = await res.json();
 
-                  useAuthStore.setState({
-                    accessToken: data.access_token,
-                    user: data.user,
-                    isLoading: false,
-                  });
+                  setOAuthUser(data.user, data.access_token);
 
-                  alert('Đăng nhập bằng Google thành công!');
+                  toast.success('Đăng nhập bằng Google thành công!');
                   navigate('/');
                 } catch (err) {
                   setError(err.message || 'Đăng nhập Google thất bại');

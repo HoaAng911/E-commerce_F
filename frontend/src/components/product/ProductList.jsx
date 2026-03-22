@@ -4,10 +4,10 @@ import useProductStore from '../../store/product.store';
 import { formatProduct } from '../../lib/utils/productUtils';
 
 const ProductList = () => {
-  const { products, isLoading, fetchProducts } = useProductStore();
+  const { products, isLoading, fetchProductsWithPagination, pagination } = useProductStore();
 
   useEffect(() => {
-    fetchProducts();
+    fetchProductsWithPagination({ page: 1, limit: 12 });
   }, []);
 
   if (isLoading) {
@@ -33,11 +33,50 @@ const ProductList = () => {
             <p className="text-lg text-gray-500">Không có sản phẩm nào</p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={formatProduct(product)} />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+              {products.map((product) => (
+                <ProductCard key={product.id} product={formatProduct(product)} />
+              ))}
+            </div>
+
+            {/* Pagination UI */}
+            {pagination && pagination.totalPages > 1 && (
+              <div className="flex items-center justify-center py-12 space-x-2">
+                <button
+                  onClick={() => fetchProductsWithPagination({ page: pagination.page - 1, limit: pagination.limit })}
+                  disabled={pagination.page <= 1}
+                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  Trang trước
+                </button>
+                
+                <div className="flex items-center space-x-1">
+                  {[...Array(pagination.totalPages)].map((_, i) => (
+                    <button
+                      key={i + 1}
+                      onClick={() => fetchProductsWithPagination({ page: i + 1, limit: pagination.limit })}
+                      className={`w-10 h-10 text-sm font-medium rounded-md transition-colors ${
+                        pagination.page === i + 1
+                          ? 'bg-gray-900 text-white'
+                          : 'text-gray-700 bg-white border border-gray-300 hover:bg-gray-50'
+                      }`}
+                    >
+                      {i + 1}
+                    </button>
+                  ))}
+                </div>
+
+                <button
+                  onClick={() => fetchProductsWithPagination({ page: pagination.page + 1, limit: pagination.limit })}
+                  disabled={pagination.page >= pagination.totalPages}
+                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  Trang sau
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

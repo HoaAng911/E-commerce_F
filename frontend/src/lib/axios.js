@@ -1,5 +1,4 @@
 import axios from "axios";
-import authApi from "../api/auth.service";
 
 let isRefreshing = false;
 let failedQueue = [];
@@ -53,7 +52,10 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const response = await authApi.refreshToken();
+        // Dùng axios thuần để tránh import vòng (Circular Dependency)
+        const response = await axios.post(`${api.defaults.baseURL}auth/refresh`, {}, {
+          withCredentials: true // Gửi cookie chứa refresh_token
+        });
         const { access_token } = response.data;
         
         // Cập nhật accessToken trong auth-storage (JSON định dạng của zustand persist)

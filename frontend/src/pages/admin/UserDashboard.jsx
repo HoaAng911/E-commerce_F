@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Trash2, ShieldCheck, ShieldAlert, UserPlus, Search, ChevronLeft, ChevronRight } from 'lucide-react';
-import api from '../../lib/axios';
+import userService from '../../api/user.service';
+import { toast } from 'sonner';
 
 const UserDashboard = () => {
   const [users, setUsers] = useState([]);
@@ -15,15 +16,13 @@ const UserDashboard = () => {
   const fetchUsers = async (page = 1) => {
     try {
       setLoading(true);
-      const response = await api.get('/users', {
-        params: { page, limit: pagination.limit }
-      });
-      setUsers(response.data.data);
+      const response = await userService.getAllUsers(page, pagination.limit);
+      setUsers(response.data);
       setPagination(prev => ({
         ...prev,
-        page: response.data.page,
-        total: response.data.total,
-        lastPage: response.data.lastPage
+        page: response.page,
+        total: response.total,
+        lastPage: response.lastPage
       }));
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -38,22 +37,22 @@ const UserDashboard = () => {
 
   const toggleUserStatus = async (id, currentStatus) => {
     try {
-      await api.patch(`/users/${id}`, {
-        isActive: !currentStatus
-      });
+      await userService.updateUserStatus(id, !currentStatus);
+      toast.success('Cập nhật trạng thái thành công!');
       fetchUsers(pagination.page); 
     } catch (error) {
-      alert("Cập nhật trạng thái thất bại");
+      toast.error(error.response?.data?.message || "Cập nhật trạng thái thất bại");
     }
   };
 
   const deleteUser = async (id) => {
     if (window.confirm("BẠN CÓ CHẮC MUỐN XÓA THÀNH VIÊN NÀY?")) {
       try {
-        await api.delete(`/users/${id}`);
+        await userService.deleteUser(id);
+        toast.success('Đã xóa thành viên thành công');
         fetchUsers(pagination.page);
       } catch (error) {
-        alert("Xóa thất bại");
+        toast.error(error.response?.data?.message || "Xóa thất bại");
       }
     }
   };
