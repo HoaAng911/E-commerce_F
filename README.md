@@ -1,4 +1,4 @@
-# 👟 Shoes Store - E-commerce Platform
+#  Shoes Store - E-commerce Platform
 
 <div align="center">
 
@@ -13,7 +13,7 @@ Dự án website bán giày đa năng, được thiết kế và tối ưu theo 
 
 ---
 
-## 🏗️ Kiến trúc & Giải pháp (Technical Solutions)
+##  Kiến trúc & Giải pháp (Technical Solutions)
 
 Trong dự án này, mỗi dòng code đều được viết với tư duy xử lý các bài toán lớn trong hệ thống E-commerce thực tế:
 
@@ -34,7 +34,7 @@ Trong dự án này, mỗi dòng code đều được viết với tư duy xử 
 
 ---
 
-## 🛠 Tech Stack
+##  Tech Stack
 
 | Tầng | Công nghệ sử dụng |
 | :--- | :--- |
