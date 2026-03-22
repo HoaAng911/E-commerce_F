@@ -4,6 +4,9 @@ import { Category } from 'src/categories/entity/categories.entity';
 
 
 @Entity('products')
+@Index(['categoryId', 'price'])//toi uu loc gia theo danh muc
+@Index(['isActive', 'soldCount'])//toi uu cho viec hien thi hang ban chay
+
 export class Product {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -20,7 +23,7 @@ export class Product {
   description: string;
 
   @Column('decimal', { precision: 10, scale: 2 })
-  @Index()
+
   price: number;
 
   @Column('decimal', { precision: 10, scale: 2, nullable: true })
@@ -33,11 +36,11 @@ export class Product {
   stock: number;
 
   @Column({ default: 0 })
-  @Index()
+
   soldCount: number;
 
   @Column('decimal', { precision: 3, scale: 2, default: 0 })
-  @Index()
+
   rating: number;
 
   @Column({ default: 0 })

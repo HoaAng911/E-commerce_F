@@ -1,4 +1,3 @@
-// src/cart/entity/cart-item.entity.ts
 import { Product } from "src/product/entity/product.entity";
 import { Column, CreateDateColumn, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Cart } from "./cart.entity";

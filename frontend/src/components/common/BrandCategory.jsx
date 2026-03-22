@@ -20,7 +20,6 @@ export const BrandCategory = () => {
     {
       name: "Biti's",
       desc: 'Nâng niu bàn chân Việt',
-      // Hình ảnh đại diện cho dòng Hunter Street/Lifestyle rất hợp với vibe hiện đại
       image: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=1974', 
       link: "/products?brand=Biti's",
       gridClass: 'md:col-span-1'

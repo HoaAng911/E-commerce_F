@@ -7,17 +7,11 @@ const useCartStore = create((set, get) => ({
   isLoading: false,
   error: null,
 
-  // Lấy userId từ authStore
-  getUserId: () => useAuthStore.getState().user?.id,
-
   // 1. Lấy dữ liệu giỏ hàng
   fetchCart: async () => {
-    const userId = get().getUserId();
-    if (!userId) return;
-
     set({ isLoading: true, error: null });
     try {
-      const response = await cartApi.getCart(userId);
+      const response = await cartApi.getCart();
       set({ cart: response.data, isLoading: false });
     } catch (error) {
       set({
@@ -29,12 +23,9 @@ const useCartStore = create((set, get) => ({
 
   // 2. Thêm sản phẩm (data: { productId, quantity, size, color })
   addToCart: async (data) => {
-    const userId = get().getUserId();
-    if (!userId) throw new Error('Vui lòng đăng nhập');
-
     set({ isLoading: true });
     try {
-      const response = await cartApi.addToCart(userId, data);
+      const response = await cartApi.addToCart(data);
       set({ cart: response.data, isLoading: false });
       return response.data;
     } catch (error) {
@@ -45,9 +36,6 @@ const useCartStore = create((set, get) => ({
 
   // 3. Cập nhật số lượng (dùng cho cả tăng/giảm)
   updateItemQuantity: async (cartItemId, quantity) => {
-    const userId = get().getUserId();
-    if (!userId) return;
-
     // Cập nhật tạm thời trên UI (Optimistic Update) cho mượt
     const prevCart = get().cart;
     if (prevCart) {
@@ -58,7 +46,7 @@ const useCartStore = create((set, get) => ({
     }
 
     try {
-      const response = await cartApi.updateItem(userId, { cartItemId, quantity });
+      const response = await cartApi.updateItem({ cartItemId, quantity });
       set({ cart: response.data });
     } catch (error) {
       // Nếu lỗi thì hoàn tác lại (rollback)
@@ -69,11 +57,8 @@ const useCartStore = create((set, get) => ({
 
   // 4. Chọn/Bỏ chọn sản phẩm
   selectItem: async (cartItemId, selected) => {
-    const userId = get().getUserId();
-    if (!userId) return;
-
     try {
-      const response = await cartApi.selectItem(userId, { cartItemId, selected });
+      const response = await cartApi.selectItem({ cartItemId, selected });
       set({ cart: response.data });
     } catch (error) {
       console.error(error);
@@ -81,23 +66,18 @@ const useCartStore = create((set, get) => ({
   },
 
   // 5. Xóa 1 sản phẩm
-  // cart.store.js
   removeItem: async (itemId) => {
-    const userId = get().getUserId();
-    if (!userId) return;
-
     // Lưu lại trạng thái cũ để hoàn tác nếu lỗi
     const prevCart = get().cart;
 
     // Cập nhật UI ngay lập tức (Optimistic Update)
     if (prevCart) {
       const updatedItems = prevCart.items.filter(item => item.id !== itemId);
-      // Tính toán lại sơ bộ tổng tiền nếu cần, hoặc chỉ lọc danh sách
       set({ cart: { ...prevCart, items: updatedItems } });
     }
 
     try {
-      const response = await cartApi.removeItem(userId, itemId);
+      const response = await cartApi.removeItem(itemId);
       set({ cart: response.data, isLoading: false });
     } catch (error) {
       // Hoàn tác nếu gọi API thất bại
@@ -108,11 +88,8 @@ const useCartStore = create((set, get) => ({
 
   // 6. Xóa sạch giỏ hàng
   clearCart: async () => {
-    const userId = get().getUserId();
-    if (!userId) return;
-
     try {
-      await cartApi.clearCart(userId);
+      await cartApi.clearCart();
       set({ cart: { items: [], totalPrice: 0, totalItems: 0 } });
     } catch (error) {
       console.error(error);

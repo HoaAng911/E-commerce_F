@@ -65,7 +65,7 @@ export class OrderController {
   @Delete(':id')
   async deleteOrder(@Req() req, @Param('id') orderId: string) {
     const userId = req.user.sub;
-    // Gọi hàm softDelete mà chúng ta đã thảo luận trong Service
+   
     return this.orderService.softDeleteOrder(orderId, userId);
   }
 }

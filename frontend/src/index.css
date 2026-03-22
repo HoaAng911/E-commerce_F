@@ -1,1 +1,21 @@
 @import "tailwindcss";
+
+@theme {
+  --color-admin-primary: #6366f1;
+  --color-admin-primary-light: #eef2ff;
+  --color-admin-bg: #f8fafc;
+  --color-admin-sidebar: #ffffff;
+  --color-admin-card: #ffffff;
+  --color-admin-border: #f1f5f9;
+  --color-admin-text: #1e293b;
+  --color-admin-subtext: #64748b;
+  
+  --shadow-admin-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-admin-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+}

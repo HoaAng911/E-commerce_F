@@ -27,12 +27,14 @@ import ArticleList from './components/common/ArticleList'
 import ArticleDetail from './pages/ArticleDetail'
 import AdminRoute from './components/routes/AdminRoute'
 import useAuthStore from './store/auth.store' 
+import ScrollToTop from './components/common/ScrollToTop'
 
 function App() {
   const { user } = useAuthStore();
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         {/* --- PUBLIC & CUSTOMER ROUTES (Sử dụng MainLayout) --- */}
         <Route path="/" element={<MainLayout><Home /></MainLayout>} />

@@ -3,6 +3,7 @@ import { ShoppingBag, User, Search, Menu, X, LogOut, ChevronDown, Settings, Pack
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import useAuthStore from '../../store/auth.store';
+import useCartStore from '../../store/cart.store';
 import SearchSuggestions from './SearchSuggestions';
 
 export default function Header() {
@@ -14,10 +15,10 @@ export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, isAuthenticated, logout } = useAuthStore();
+  const { cart, fetchCart } = useCartStore();
   const isLoggedIn = isAuthenticated();
 
-  // Giả lập số lượng giỏ hàng (Sau này lấy từ cart store)
-  const cartItemCount = 3;
+  const cartItemCount = cart?.items?.reduce((total, item) => total + item.quantity, 0) || 0;
 
   // Hiệu ứng đổi màu header khi scroll
   useEffect(() => {
@@ -25,6 +26,13 @@ export default function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Tự động fetch giỏ hàng khi user đăng nhập
+  useEffect(() => {
+    if (isLoggedIn) {
+      fetchCart();
+    }
+  }, [isLoggedIn, fetchCart]);
 
   const handleLogout = async () => {
     await logout();
@@ -84,7 +92,7 @@ export default function Header() {
               <ShoppingBag className="relative w-6 h-6 text-gray-700 transition-colors group-hover:text-blue-600" />
               {cartItemCount > 0 && (
                 <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-black text-[10px] font-bold text-white ring-2 ring-white">
-                  {cartItemCount}
+                  {cartItemCount > 9 ? '9+' : cartItemCount}
                 </span>
               )}
             </Link>

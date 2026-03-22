@@ -9,7 +9,6 @@ import { Product } from 'src/product/entity/product.entity';
 
 @Module({
   imports: [
-    
     TypeOrmModule.forFeature([Order, OrderItem, Cart, Product]),
   ],
   controllers: [OrderController],

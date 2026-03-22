@@ -6,7 +6,8 @@ import {
   Delete,
   Body,
   Param,
-  UseGuards
+  UseGuards,
+  Req
 } from '@nestjs/common';
 import { CartService } from './cart.service';
 import { AddToCartDto } from './dto/add-to-cart.dto';
@@ -15,48 +16,55 @@ import { SelectItemDto } from './dto/select-item.dto';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('cart')
+@UseGuards(AuthGuard('jwt'))
 export class CartController {
   constructor(private readonly cartService: CartService) { }
-  @Get(':userId')
-  async getCart(@Param('userId') userId: string) {
+
+  @Get()
+  async getCart(@Req() req) {
+    const userId = req.user.sub;
     return this.cartService.getCart(userId);
   }
 
-  @Post('add/:userId')
+  @Post('add')
   async addToCart(
-    @Param('userId') userId: string,
+    @Req() req,
     @Body() dto: AddToCartDto
   ) {
+    const userId = req.user.sub;
     return this.cartService.addToCart(userId, dto);
   }
 
-  @Patch('update/:userId')
+  @Patch('update')
   async updateItem(
-    @Param('userId') userId: string,
+    @Req() req,
     @Body() dto: UpdateCartItemDto
   ) {
+    const userId = req.user.sub;
     return this.cartService.updateCartItem(userId, dto);
   }
 
-  @Patch('select/:userId')
+  @Patch('select')
   async selectItem(
-    @Param('userId') userId: string,
+    @Req() req,
     @Body() dto: SelectItemDto
   ) {
+    const userId = req.user.sub;
     return this.cartService.selectItem(userId, dto);
   }
 
-  @Delete('clear/:userId')
-  async clearCart(@Param('userId') userId: string) {
+  @Delete('clear')
+  async clearCart(@Req() req) {
+    const userId = req.user.sub;
     return this.cartService.clearCart(userId);
   }
 
-  @UseGuards(AuthGuard('jwt'))
-  @Delete('item/:userId/:itemId')
+  @Delete('item/:itemId')
   async removeItem(
-    @Param('userId') userId: string,
+    @Req() req,
     @Param('itemId') itemId: string
   ) {
+    const userId = req.user.sub;
     return this.cartService.removeItem(userId, itemId);
   }
 }

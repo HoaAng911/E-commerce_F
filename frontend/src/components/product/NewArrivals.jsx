@@ -27,7 +27,8 @@ const NewArrivals = () => {
     reviewCount: product.reviewCount,
     tagLabels: product.isFeatured ? ['Mới'] : [],
     color: product.colors?.[0] || 'Đa màu',
-    sizes: product.sizes || []
+    sizes: product.sizes || [],
+    stock: product.stock
   });
 
   const handleLike = (productId) => console.log('Liked product:', productId);

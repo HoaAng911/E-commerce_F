@@ -22,7 +22,8 @@ const FeaturedProducts = () => {
     reviewCount: product.reviewCount,
     tagLabels: product.isFeatured ? ['Đặc sắc'] : [],
     color: product.colors?.[0] || 'Đa màu',
-    sizes: product.sizes || []
+    sizes: product.sizes || [],
+    stock: product.stock
   });
 
 

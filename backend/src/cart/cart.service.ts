@@ -75,8 +75,9 @@ export class CartService {
     );
 
     if (existingItem) {
-      // Cập nhật số lượng
+      // Cập nhật số lượng và đảm bảo item được chọn (re-select)
       existingItem.quantity += dto.quantity;
+      existingItem.selected = true; 
       await this.cartItemRepo.save(existingItem);
     } else {
       // Thêm mới

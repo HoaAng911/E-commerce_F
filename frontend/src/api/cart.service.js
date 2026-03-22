@@ -2,17 +2,17 @@ import api from '../lib/axios';
 
 const cartApi = {
   
-  getCart: (userId) => api.get(`/cart/${userId}`),
+  getCart: () => api.get(`/cart`),
 
-  addToCart: (userId, data) => api.post(`/cart/add/${userId}`, data),
+  addToCart: (data) => api.post(`/cart/add`, data),
 
-  updateItem: (userId, data) => api.patch(`/cart/update/${userId}`, data),
+  updateItem: (data) => api.patch(`/cart/update`, data),
 
-  selectItem: (userId, data) => api.patch(`/cart/select/${userId}`, data),
+  selectItem: (data) => api.patch(`/cart/select`, data),
 
-  removeItem: (userId, itemId) => api.delete(`/cart/item/${userId}/${itemId}`),
+  removeItem: (itemId) => api.delete(`/cart/item/${itemId}`),
 
-  clearCart: (userId) => api.delete(`/cart/clear/${userId}`),
+  clearCart: () => api.delete(`/cart/clear`),
 };
 
 export default cartApi;

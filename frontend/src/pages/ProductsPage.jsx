@@ -30,6 +30,7 @@ export default function ProductsPage() {
     categoryLabel: product.category?.name || 'Giày',
     discount: product.discountPercent, // 
     tagLabels: product.isFeatured ? ['Mới'] : [],
+    stock: product.stock,
   });
   const params = {
     keyword: searchParams.get('q') || '',

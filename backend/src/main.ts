@@ -13,7 +13,8 @@ async function bootstrap() {
       'http://localhost:5173',
       'http://localhost:8080',
       'http://127.0.0.1:5173',
-    ],
+      process.env.FRONTEND_URL, // Thêm URL của frontend trên Railway
+    ].filter(Boolean), // Loại bỏ các giá trị undefined/null
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true,
     allowedHeaders: [

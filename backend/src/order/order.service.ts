@@ -29,13 +29,18 @@ export class OrderService {
     await queryRunner.startTransaction();
 
     try {
-      // 1. Lấy giỏ hàng và các item được chọn
-      const cart = await this.cartRepository.findOne({
+      // 1. Lấy giỏ hàng và các item được chọn dùng Manager của Transaction
+      const cart = await queryRunner.manager.findOne(Cart, {
         where: { user: { id: userId } },
         relations: ['items', 'items.product'],
       });
+
+      if (!cart) {
+        throw new BadRequestException('Không tìm thấy giỏ hàng của bạn');
+      }
+
       const shippingFee = 30000;
-      const selectedItems = cart?.items.filter(item => item.selected) || [];
+      const selectedItems = cart.items.filter(item => item.selected) || [];
       if (selectedItems.length === 0) {
         throw new BadRequestException('Giỏ hàng trống hoặc không có sản phẩm nào được chọn');
       }
