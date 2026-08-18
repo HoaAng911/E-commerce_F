@@ -5,9 +5,9 @@ const AdminStatCard = ({ title, value, icon, trend, trendValue, color }) => {
   const isPositive = trend === 'up';
   
   return (
-    <div className="p-6 bg-white border border-admin-border rounded-2xl shadow-admin-sm hover:shadow-admin-md transition-all duration-300 group">
+    <div className="p-6 bg-white border border-admin-border rounded-none shadow-admin-sm hover:shadow-admin-md transition-all duration-300 group">
       <div className="flex items-center justify-between mb-4">
-        <div className={`flex items-center justify-center w-12 h-12 rounded-xl ${color || 'bg-admin-primary-light'} text-admin-primary group-hover:scale-110 transition-transform duration-300`}>
+        <div className={`flex items-center justify-center w-12 h-12 ${color || 'bg-admin-primary-light text-admin-primary'} group-hover:scale-110 transition-transform duration-300`}>
           {icon}
         </div>
         

@@ -48,8 +48,8 @@ const NewArrivals = () => {
     <section className="w-full py-12 bg-gray-50">
       <div className="container px-4 mx-auto">
         <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 uppercase">Sản phẩm mới</h2>
-          <div className="w-16 h-1 mt-2 bg-black"></div>
+          <h2 className="font-display text-3xl md:text-4xl uppercase tracking-wide text-ink">Sản phẩm mới</h2>
+          <div className="w-14 h-1 mt-3 bg-ink"></div>
           <p className="text-gray-500 text-sm mt-2 uppercase tracking-[0.2em]">Vừa cập bến tại cửa hàng</p>
         </div>
 

@@ -102,21 +102,21 @@ const AdminArticlePage = () => {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <h1 className="text-2xl font-bold text-black">Quản lý bài viết</h1>
+        <h1 className="font-display text-4xl text-ink tracking-wide uppercase">Quản lý bài viết</h1>
         <button 
           onClick={() => handleOpenModal()} 
-          className="inline-flex items-center justify-center gap-2.5 rounded-sm bg-black py-2.5 px-6 text-center font-medium text-white hover:bg-opacity-90 transition-all text-sm uppercase tracking-widest"
+          className="inline-flex items-center justify-center gap-2.5 rounded-sm bg-ink py-2.5 px-6 text-center font-medium text-white hover:bg-ink/80 transition-all text-sm uppercase tracking-widest"
         >
           <Plus size={16} />
           Thêm bài viết
         </button>
       </div>
 
-      <div className="rounded-sm border border-[#E2E8F0] bg-white shadow-sm mt-6">
+      <div className="rounded-sm border border-admin-border bg-white shadow-sm mt-6">
         <div className="overflow-x-auto">
           <table className="w-full table-auto">
             <thead>
-              <tr className="bg-gray-50 text-left">
+              <tr className="bg-admin-primary-light text-left">
                 <th className="py-4 px-6 font-medium text-black">Thumbnail</th>
                 <th className="py-4 px-6 font-medium text-black">Tiêu đề</th>
                 <th className="py-4 px-6 font-medium text-black">Tác giả</th>
@@ -128,7 +128,7 @@ const AdminArticlePage = () => {
             <tbody>
               {articles.length > 0 ? (
                 articles.map((article, idx) => (
-                  <tr key={article.id} className={`${idx === articles.length - 1 ? '' : 'border-b border-[#E2E8F0]'} hover:bg-gray-50 transition-colors`}>
+                  <tr key={article.id} className={`${idx === articles.length - 1 ? '' : 'border-b border-admin-border'} hover:bg-admin-primary-light/40 transition-colors`}>
                     <td className="py-4 px-6">
                       {article.thumbnail ? (
                         <img src={article.thumbnail} alt={article.title} className="w-16 h-10 object-cover rounded bg-gray-100" />
@@ -158,7 +158,7 @@ const AdminArticlePage = () => {
                     </td>
                     <td className="py-4 px-6 text-right">
                       <div className="flex items-center justify-end gap-3">
-                        <button onClick={() => handleOpenModal(article)} className="hover:text-blue-600 transition-colors" title="Sửa">
+                        <button onClick={() => handleOpenModal(article)} className="hover:text-ink transition-colors" title="Sửa">
                           <Edit size={18} />
                         </button>
                         <button onClick={() => handleDelete(article.id)} className="hover:text-red-600 transition-colors" title="Xóa">
@@ -184,11 +184,11 @@ const AdminArticlePage = () => {
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-sm shadow-xl w-full max-w-4xl max-h-[95vh] flex flex-col overflow-hidden">
-            <div className="py-4 px-6 border-b border-[#E2E8F0] flex items-center justify-between">
-              <h2 className="text-xl font-bold text-black uppercase tracking-tight">
+            <div className="py-4 px-6 border-b border-admin-border flex items-center justify-between">
+              <h2 className="font-display text-2xl text-black uppercase tracking-wide">
                 {editingArticle ? 'Chỉnh sửa bài viết' : 'Tạo bài viết mới'}
               </h2>
-              <button onClick={handleCloseModal} className="text-[#64748B] hover:text-black transition-colors">
+              <button onClick={handleCloseModal} className="text-admin-subtext hover:text-black transition-colors">
                 <X size={24} />
               </button>
             </div>
@@ -207,7 +207,7 @@ const AdminArticlePage = () => {
                         name="title" 
                         value={formData.title} 
                         onChange={handleInputChange} 
-                        className="w-full rounded border-[1.5px] border-[#E2E8F0] bg-white py-3 px-5 text-black outline-none transition focus:border-black" 
+                        className="w-full rounded border-[1.5px] border-admin-border bg-white py-3 px-5 text-black outline-none transition focus:border-ink" 
                         placeholder="Nhập tiêu đề..." 
                       />
                     </div>
@@ -215,7 +215,7 @@ const AdminArticlePage = () => {
                     {/* Nội dung */}
                     <div className="space-y-2">
                       <label className="text-[11px] font-bold uppercase tracking-wider text-gray-500">Nội dung bài viết</label>
-                      <div className="bg-white rounded border-[1.5px] border-[#E2E8F0] overflow-hidden focus-within:border-black transition">
+                      <div className="bg-white rounded border-[1.5px] border-admin-border overflow-hidden focus-within:border-ink transition">
                         <ReactQuill 
                           theme="snow"
                           value={formData.content}
@@ -237,9 +237,9 @@ const AdminArticlePage = () => {
 
                   <div className="space-y-6">
                     {/* Thumbnail */}
-                    <div className="p-5 rounded-sm border border-[#E2E8F0] bg-white space-y-4">
+                    <div className="p-5 rounded-sm border border-admin-border bg-white space-y-4">
                       <div className="flex items-center gap-2 mb-2">
-                        <ImageIcon size={18} className="text-[#64748B]" />
+                        <ImageIcon size={18} className="text-admin-subtext" />
                         <h3 className="text-[11px] font-bold uppercase tracking-wider text-black">Hình ảnh đại diện</h3>
                       </div>
                       
@@ -251,7 +251,7 @@ const AdminArticlePage = () => {
                           name="thumbnail" 
                           value={formData.thumbnail} 
                           onChange={handleInputChange} 
-                          className="w-full rounded border-[1.5px] border-[#E2E8F0] bg-white py-2.5 px-4 text-sm text-black outline-none transition focus:border-black" 
+                          className="w-full rounded border-[1.5px] border-admin-border bg-white py-2.5 px-4 text-sm text-black outline-none transition focus:border-ink" 
                           placeholder="https://..." 
                         />
                       </div>
@@ -265,7 +265,7 @@ const AdminArticlePage = () => {
                     </div>
 
                     {/* Settings */}
-                    <div className="p-5 rounded-sm border border-[#E2E8F0] bg-white space-y-4">
+                    <div className="p-5 rounded-sm border border-admin-border bg-white space-y-4">
                       <h3 className="text-[11px] font-bold uppercase tracking-wider text-black">Cài đặt</h3>
                       
                       <div className="flex items-center gap-3 py-2">
@@ -277,7 +277,7 @@ const AdminArticlePage = () => {
                             onChange={handleInputChange} 
                             className="sr-only peer"
                           />
-                          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-ink"></div>
                           <span className="ml-3 text-sm font-medium text-black">Hiển thị công khai</span>
                         </label>
                       </div>
@@ -288,15 +288,15 @@ const AdminArticlePage = () => {
               </form>
             </div>
             
-            <div className="py-4 px-6 border-t border-[#E2E8F0] bg-gray-50 flex justify-end gap-3">
-              <button onClick={handleCloseModal} className="rounded-sm border border-[#E2E8F0] px-6 py-2.5 text-xs font-bold uppercase tracking-widest text-black hover:bg-white transition-colors">
+            <div className="py-4 px-6 border-t border-admin-border bg-admin-primary-light/40 flex justify-end gap-3">
+              <button onClick={handleCloseModal} className="rounded-sm border border-admin-border px-6 py-2.5 text-xs font-bold uppercase tracking-widest text-black hover:bg-white transition-colors">
                 Hủy
               </button>
               <button 
                 type="submit" 
                 form="articleForm" 
                 disabled={isLoading}
-                className="rounded-sm bg-black px-8 py-2.5 text-xs font-bold uppercase tracking-widest text-white hover:bg-gray-800 transition-colors disabled:bg-gray-400"
+                className="rounded-sm bg-ink px-8 py-2.5 text-xs font-bold uppercase tracking-widest text-white hover:bg-ink/80 transition-colors disabled:bg-gray-400"
               >
                 {isLoading ? 'Đang lưu...' : (editingArticle ? 'Cập nhật' : 'Đăng bài')}
               </button>

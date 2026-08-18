@@ -59,10 +59,10 @@ const AdminDashboard = () => {
 
   const getStatusStyle = (status) => {
     switch (status?.toLowerCase()) {
-      case 'completed': return 'bg-emerald-50 text-emerald-600 border-emerald-100';
-      case 'delivered': return 'bg-emerald-50 text-emerald-600 border-emerald-100';
+      case 'completed': return 'bg-volt text-ink border-transparent';
+      case 'delivered': return 'bg-volt text-ink border-transparent';
       case 'pending': return 'bg-amber-50 text-amber-600 border-amber-100';
-      case 'shipping': return 'bg-blue-50 text-blue-600 border-blue-100';
+      case 'shipping': return 'bg-ink text-white border-transparent';
       case 'cancelled': return 'bg-red-50 text-red-600 border-red-100';
       default: return 'bg-slate-50 text-slate-600 border-slate-100';
     }
@@ -77,10 +77,10 @@ const AdminDashboard = () => {
   }
 
   const statCardsData = [
-    { title: 'Doanh thu', value: formatPrice(stats.revenue), icon: <DollarSign size={24} />, trend: 'up', trendValue: 12, color: 'bg-emerald-50 text-emerald-600' },
-    { title: 'Đơn hàng', value: stats.totalOrders, icon: <ShoppingCart size={24} />, trend: 'up', trendValue: 8, color: 'bg-blue-50 text-blue-600' },
-    { title: 'Người dùng', value: stats.totalUsers, icon: <Users size={24} />, trend: 'down', trendValue: 2, color: 'bg-indigo-50 text-indigo-600' },
-    { title: 'Sản phẩm', value: stats.totalProducts, icon: <Package size={24} />, trend: 'up', trendValue: 5, color: 'bg-purple-50 text-purple-600' },
+    { title: 'Doanh thu', value: formatPrice(stats.revenue), icon: <DollarSign size={24} />, trend: 'up', trendValue: 12, color: 'bg-ink text-volt' },
+    { title: 'Đơn hàng', value: stats.totalOrders, icon: <ShoppingCart size={24} />, trend: 'up', trendValue: 8, color: 'bg-ink text-volt' },
+    { title: 'Người dùng', value: stats.totalUsers, icon: <Users size={24} />, trend: 'down', trendValue: 2, color: 'bg-ink text-volt' },
+    { title: 'Sản phẩm', value: stats.totalProducts, icon: <Package size={24} />, trend: 'up', trendValue: 5, color: 'bg-ink text-volt' },
   ];
 
   return (
@@ -88,18 +88,18 @@ const AdminDashboard = () => {
       {/* Header Section */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
         <div>
-          <h1 className="text-3xl font-black text-admin-text tracking-tight uppercase">Dashboard</h1>
+          <h1 className="font-display text-4xl text-admin-text tracking-wide uppercase">Dashboard</h1>
           <p className="text-admin-subtext text-sm font-bold mt-1 uppercase tracking-widest">
             Tổng quan hoạt động cửa hàng
           </p>
         </div>
         
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 px-4 py-2.5 bg-white border border-admin-border rounded-xl text-sm font-bold text-admin-subtext cursor-pointer hover:bg-slate-50 transition-colors">
+          <div className="flex items-center gap-2 px-4 py-2.5 bg-white border border-admin-border text-sm font-bold text-admin-subtext cursor-pointer hover:bg-slate-50 transition-colors">
             <Calendar size={18} />
             <span>Tháng 3, 2026</span>
           </div>
-          <button className="flex items-center gap-2 px-6 py-2.5 bg-admin-primary text-white text-sm font-bold rounded-xl hover:bg-indigo-600 shadow-lg shadow-admin-primary/25 transition-all active:scale-95">
+          <button className="flex items-center gap-2 px-6 py-2.5 bg-admin-primary text-white text-sm font-bold hover:bg-ink/80 shadow-lg shadow-admin-primary/25 transition-all active:scale-95">
             <Download size={18} />
             Xuất báo cáo
           </button>
@@ -117,9 +117,9 @@ const AdminDashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Recent Orders Table */}
-        <div className="lg:col-span-3 bg-white border border-admin-border rounded-2xl shadow-admin-sm overflow-hidden">
+        <div className="lg:col-span-3 bg-white border border-admin-border shadow-admin-sm overflow-hidden">
           <div className="flex items-center justify-between p-6 border-b border-admin-border">
-            <h4 className="text-lg font-black text-admin-text uppercase tracking-tight">Đơn hàng mới nhất</h4>
+            <h4 className="font-display text-lg text-admin-text uppercase tracking-wide">Đơn hàng mới nhất</h4>
             <button className="text-admin-subtext hover:text-admin-primary transition-colors text-xs font-bold uppercase tracking-widest border-b border-transparent hover:border-admin-primary pb-0.5">
               Xem tất cả
             </button>
@@ -128,7 +128,7 @@ const AdminDashboard = () => {
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="bg-slate-50 text-xs font-bold text-admin-subtext uppercase tracking-widest">
+                <tr className="bg-admin-primary-light text-xs font-bold text-admin-subtext uppercase tracking-widest">
                   <th className="px-6 py-4">Mã đơn</th>
                   <th className="px-6 py-4">Khách hàng</th>
                   <th className="px-6 py-4">Thanh toán</th>
@@ -167,7 +167,7 @@ const AdminDashboard = () => {
                           </span>
                         </div>
                       </td>
-                      <td className="px-6 py-5 text-sm font-black text-admin-text text-right pr-10 italic">
+                      <td className="px-6 py-5 text-sm font-black text-admin-text text-right pr-10">
                         {formatPrice(order.totalAmount)}
                       </td>
                       <td className="px-6 py-5 text-right w-10">

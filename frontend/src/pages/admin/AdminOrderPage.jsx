@@ -21,11 +21,11 @@ const AdminOrderPage = () => {
 
   const getStatusColor = (status) => {
     switch (status?.toLowerCase()) {
-      case 'delivered': return { bg: 'bg-[#219653]/10', text: 'text-[#219653]', label: 'Đã giao' };
-      case 'shipping': return { bg: 'bg-blue-100', text: 'text-blue-800', label: 'Đang giao' };
-      case 'confirmed': return { bg: 'bg-purple-100', text: 'text-purple-800', label: 'Đã xác nhận' };
+      case 'delivered': return { bg: 'bg-volt text-ink', text: '', label: 'Đã giao' };
+      case 'shipping': return { bg: 'bg-ink text-white', text: '', label: 'Đang giao' };
+      case 'confirmed': return { bg: 'bg-admin-primary-light text-admin-text', text: '', label: 'Đã xác nhận' };
       case 'cancelled': return { bg: 'bg-[#EB5757]/10', text: 'text-[#EB5757]', label: 'Đã hủy' };
-      default: return { bg: 'bg-[#F2C94C]/10', text: 'text-[#F2C94C]', label: 'Chờ xử lý' };
+      default: return { bg: 'bg-amber-100', text: 'text-amber-800', label: 'Chờ xử lý' };
     }
   };
 
@@ -59,16 +59,16 @@ const AdminOrderPage = () => {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <h1 className="text-2xl font-bold text-black">Quản lý đơn hàng</h1>
+        <h1 className="font-display text-4xl text-admin-text tracking-wide uppercase">Quản lý đơn hàng</h1>
         <div className="flex items-center gap-3 w-full sm:w-auto">
           <button 
             onClick={() => fetchAllOrders()}
-            className="p-2 border border-[#E2E8F0] bg-white hover:bg-gray-50 rounded"
+            className="p-2 border border-admin-border bg-white hover:bg-admin-primary-light"
             title="Làm mới"
           >
             <RefreshCw size={18} className={isLoading ? "animate-spin" : ""} />
           </button>
-          <div className="flex rounded-sm border border-[#E2E8F0] bg-white overflow-hidden w-full sm:w-64">
+          <div className="flex border border-admin-border bg-white overflow-hidden w-full sm:w-64">
             <input 
               type="text" 
               placeholder="Tìm kiếm đơn hàng..." 
@@ -76,18 +76,18 @@ const AdminOrderPage = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full bg-transparent px-4 py-2 text-sm focus:outline-none"
             />
-            <button className="px-3 bg-gray-50 border-l border-[#E2E8F0] text-[#64748B] hover:text-black transition-colors">
+            <button className="px-3 bg-admin-primary-light border-l border-admin-border text-admin-subtext hover:text-ink transition-colors">
               <Search size={16} />
             </button>
           </div>
         </div>
       </div>
 
-      <div className="rounded-sm border border-[#E2E8F0] bg-white shadow-sm mt-6">
+      <div className="rounded-sm border border-admin-border bg-white shadow-sm mt-6">
         <div className="overflow-x-auto">
           <table className="w-full table-auto">
             <thead>
-              <tr className="bg-gray-50 text-left">
+              <tr className="bg-admin-primary-light text-left">
                 <th className="py-4 px-6 font-medium text-black">Mã đơn & Ngày</th>
                 <th className="py-4 px-6 font-medium text-black">Khách hàng</th>
                 <th className="py-4 px-6 font-medium text-black">Sản phẩm</th>
@@ -101,7 +101,7 @@ const AdminOrderPage = () => {
                 filteredOrders.map((order, idx) => {
                   const statusStyle = getStatusColor(order.status);
                   return (
-                    <tr key={order.id} className={`${idx === filteredOrders.length - 1 ? '' : 'border-b border-[#E2E8F0]'} hover:bg-gray-50 transition-colors`}>
+                    <tr key={order.id} className={`${idx === filteredOrders.length - 1 ? '' : 'border-b border-admin-border'} hover:bg-admin-primary-light/40 transition-colors`}>
                       <td className="py-4 px-6">
                         <p className="text-sm font-medium text-black">
                           {order.orderCode || `#${order.id.split('-')[0]}`}
@@ -128,7 +128,7 @@ const AdminOrderPage = () => {
                           <select 
                             value={activeStatus} 
                             onChange={(e) => setActiveStatus(e.target.value)}
-                            className="w-full rounded border-[1.5px] border-[#E2E8F0] bg-transparent py-2 px-3 text-sm text-black outline-none transition focus:border-blue-600 active:border-blue-600"
+                            className="w-full rounded border-[1.5px] border-admin-border bg-transparent py-2 px-3 text-sm text-black outline-none transition focus:border-ink active:border-ink"
                           >
                             <option value="pending">Chờ xử lý</option>
                             <option value="confirmed">Đã xác nhận</option>
@@ -159,7 +159,7 @@ const AdminOrderPage = () => {
                         ) : (
                           <button 
                             onClick={() => { setEditingOrderId(order.id); setActiveStatus(order.status || 'pending'); }}
-                            className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
+                            className="text-sm font-medium text-ink hover:text-ink/70 transition-colors"
                           >
                             Cập nhật
                           </button>

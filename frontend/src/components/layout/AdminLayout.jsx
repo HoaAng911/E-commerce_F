@@ -47,11 +47,11 @@ const AdminLayout = () => {
         <div className="flex flex-col h-full">
           {/* Logo Section */}
           <div className="flex items-center gap-3 px-6 h-20 border-b border-admin-border">
-            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-admin-primary to-indigo-600 shadow-lg shadow-admin-primary/20">
-              <span className="text-xl font-black text-white italic">S</span>
+            <div className="flex items-center justify-center w-10 h-10 bg-volt">
+              <span className="text-xl font-display text-ink">S</span>
             </div>
             {isSidebarOpen && (
-              <span className="text-xl font-bold tracking-tight text-admin-text line-clamp-1">
+              <span className="text-xl font-display uppercase tracking-wide text-bone line-clamp-1">
                 Store-Admin
               </span>
             )}
@@ -64,12 +64,12 @@ const AdminLayout = () => {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-200 group relative
+                  className={`flex items-center gap-3 px-4 py-3 font-semibold transition-all duration-200 group relative border-l-2
                     ${isActive
-                      ? 'bg-admin-primary text-white shadow-lg shadow-admin-primary/30 active:scale-95'
-                      : 'text-admin-subtext hover:bg-admin-primary-light hover:text-admin-primary hover:translate-x-1'}`}
+                      ? 'bg-volt text-ink border-volt'
+                      : 'text-bone/70 hover:bg-white/10 hover:text-volt border-transparent hover:translate-x-1'}`}
                 >
-                  <div className={`${isActive ? 'text-white' : 'text-admin-subtext group-hover:text-admin-primary'}`}>
+                  <div className={`${isActive ? 'text-ink' : 'text-bone/70 group-hover:text-volt'}`}>
                     {item.icon}
                   </div>
                   {isSidebarOpen && (
@@ -86,22 +86,22 @@ const AdminLayout = () => {
           {/* User Section Bottom */}
           <div className="p-4 mt-auto border-t border-admin-border">
             {isSidebarOpen ? (
-              <div className="p-4 rounded-2xl bg-slate-50 border border-admin-border group">
+              <div className="p-4 bg-white/5 border border-white/10 group">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-full bg-admin-primary/10 flex items-center justify-center text-admin-primary relative">
+                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-volt relative">
                      <UserCircle size={24} />
-                     <div className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full"></div>
+                     <div className="absolute bottom-0 right-0 w-3 h-3 bg-volt border-2 border-ink rounded-full"></div>
                   </div>
                   <div className="overflow-hidden">
-                    <p className="text-sm font-bold truncate text-admin-text">{user?.fullName || 'Manager'}</p>
-                    <p className="text-[10px] font-bold text-admin-subtext uppercase tracking-widest leading-none mt-1">
+                    <p className="text-sm font-bold truncate text-bone">{user?.fullName || 'Manager'}</p>
+                    <p className="text-[10px] font-bold text-bone/60 uppercase tracking-widest leading-none mt-1">
                       {user?.role || 'Admin'}
                     </p>
                   </div>
                 </div>
                 <button
                   onClick={handleLogout}
-                  className="w-full flex items-center justify-center gap-2 py-2.5 text-xs font-bold text-red-500 bg-red-50 rounded-xl hover:bg-red-100 transition-colors"
+                  className="w-full flex items-center justify-center gap-2 py-2.5 text-xs font-bold text-red-400 bg-red-500/15 rounded-none hover:bg-red-500/25 transition-colors"
                 >
                   <LogOut size={14} />
                   Đăng xuất
@@ -110,7 +110,7 @@ const AdminLayout = () => {
             ) : (
               <button
                 onClick={handleLogout}
-                className="w-full flex items-center justify-center p-3 text-red-500 hover:bg-red-50 rounded-xl transition-colors"
+                className="w-full flex items-center justify-center p-3 text-red-400 hover:bg-white/10 rounded-none transition-colors"
               >
                 <LogOut size={20} />
               </button>
@@ -135,8 +135,8 @@ const AdminLayout = () => {
                 {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
               </button>
 
-              <div className="hidden md:flex items-center gap-3 px-4 py-2.5 bg-slate-50 border border-admin-border rounded-xl w-80 group focus-within:bg-white focus-within:ring-2 focus-within:ring-admin-primary/20 transition-all">
-                <Search size={18} className="text-admin-subtext group-focus-within:text-admin-primary transition-colors" />
+              <div className="hidden md:flex items-center gap-3 px-4 py-2.5 bg-slate-50 border border-admin-border rounded-none w-80 group focus-within:bg-white focus-within:ring-2 focus-within:ring-volt/60 transition-all">
+                <Search size={18} className="text-admin-subtext group-focus-within:text-ink transition-colors" />
                 <input 
                   type="text" 
                   placeholder="Tìm kiếm báo cáo, đơn hàng..." 
@@ -150,7 +150,7 @@ const AdminLayout = () => {
               <div className="flex items-center gap-2 mr-4 border-r border-admin-border pr-4">
                 <button className="relative p-2 text-admin-subtext hover:bg-slate-100 rounded-lg transition-colors">
                   <Bell size={20} />
-                  <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+                  <span className="absolute top-2 right-2 w-2 h-2 bg-volt rounded-full border-2 border-white"></span>
                 </button>
                 <button className="p-2 text-admin-subtext hover:bg-slate-100 rounded-lg transition-colors">
                   <Mail size={20} />
@@ -159,14 +159,14 @@ const AdminLayout = () => {
 
               <div className="flex items-center gap-3 cursor-pointer group">
                  <div className="text-right hidden sm:block">
-                    <p className="text-sm font-bold text-admin-text group-hover:text-admin-primary transition-colors">
+                    <p className="text-sm font-bold text-admin-text group-hover:text-volt transition-colors">
                       {user?.fullName || 'Quản trị viên'}
                     </p>
                     <p className="text-[10px] font-bold text-admin-subtext uppercase tracking-widest">{user?.role || 'Admin'}</p>
                  </div>
-                 <div className="w-10 h-10 rounded-xl overflow-hidden border-2 border-admin-border group-hover:border-admin-primary transition-all">
+                 <div className="w-10 h-10 rounded-none overflow-hidden border-2 border-admin-border group-hover:border-volt transition-all">
                     <img 
-                      src={`https://ui-avatars.com/api/?name=${user?.fullName || 'Admin'}&background=6366f1&color=fff`} 
+                      src={`https://ui-avatars.com/api/?name=${user?.fullName || 'Admin'}&background=111110&color=d8ff3e`} 
                       alt="avatar" 
                       className="w-full h-full object-cover"
                     />

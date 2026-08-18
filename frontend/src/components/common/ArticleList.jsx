@@ -22,7 +22,7 @@ const ArticleList = () => {
       <div className="container px-4 mx-auto md:px-10">
         {/* Header theo kiểu Nike */}
         <div className="flex items-end justify-between mb-8">
-          <h2 className="text-2xl font-bold tracking-tighter text-black uppercase md:text-3xl">
+          <h2 className="font-display text-3xl md:text-4xl uppercase tracking-wide text-ink">
             Mới Nhất & Nổi Bật
           </h2>
           <Link to="/articles" className="pb-1 font-medium text-black transition-colors border-b border-black hover:text-gray-500">
@@ -52,7 +52,7 @@ const ArticleList = () => {
                 <span className="text-[#757575] text-sm font-medium mb-1 uppercase">
                   {article.author?.fullName || 'Nike Journal'}
                 </span>
-                <h3 className="text-lg italic font-bold leading-tight tracking-tight uppercase transition-colors group-hover:text-gray-600 line-clamp-2">
+                <h3 className="font-display text-lg uppercase leading-tight tracking-wide transition-colors group-hover:text-gray-600 line-clamp-2">
                   {article.title} {/* */}
                 </h3>
                 <p className="mt-2 text-[#757575] text-sm line-clamp-2 font-normal">

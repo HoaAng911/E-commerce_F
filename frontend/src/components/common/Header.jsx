@@ -49,9 +49,9 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${isScrolled
-        ? 'py-3 bg-white/80 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)]'
-        : 'py-5 bg-transparent'
+      className={`fixed top-0 left-0 right-0 z-[100] bg-bone/85 backdrop-blur-xl border-b border-ink/10 transition-all duration-500 ${isScrolled
+        ? 'py-3 shadow-[0_8px_30px_rgb(0,0,0,0.06)]'
+        : 'py-4'
         }`}
     >
       <div className="px-6 mx-auto max-w-7xl">
@@ -69,7 +69,7 @@ export default function Header() {
                 <li key={item.name}>
                   <Link
                     to={item.path}
-                    className={`text-[15px] font-medium tracking-wide transition-all duration-300 hover:text-blue-600 ${location.search.includes(item.name) ? 'text-blue-600' : 'text-gray-600'
+                    className={`pb-0.5 border-b-2 text-[13px] font-bold uppercase tracking-[0.18em] transition-colors duration-300 ${location.search.includes(item.name) ? 'text-ink border-volt' : 'text-ink/50 border-transparent hover:text-ink'
                       }`}
                   >
                     {item.name}
@@ -87,11 +87,11 @@ export default function Header() {
             </div>
 
             {/* Cart Icon - Modern Badge */}
-            <Link to="/cart" className="relative p-2 group">
-              <div className="absolute inset-0 transition-transform duration-300 scale-0 rounded-full bg-blue-50 group-hover:scale-100" />
-              <ShoppingBag className="relative w-6 h-6 text-gray-700 transition-colors group-hover:text-blue-600" />
+            <Link to="/cart" className="relative p-2 group" aria-label="Giỏ hàng">
+              <div className="absolute inset-0 transition-transform duration-300 scale-0 bg-ink/5 group-hover:scale-100" />
+              <ShoppingBag className="relative w-6 h-6 text-ink transition-transform duration-300 group-hover:scale-110" />
               {cartItemCount > 0 && (
-                <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-black text-[10px] font-bold text-white ring-2 ring-white">
+                <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-volt text-[10px] font-bold text-ink ring-2 ring-bone">
                   {cartItemCount > 9 ? '9+' : cartItemCount}
                 </span>
               )}
@@ -104,7 +104,7 @@ export default function Header() {
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
                   className="flex items-center gap-2 p-1 pl-1 pr-3 transition-all rounded-full hover:bg-gray-100"
                 >
-                  <div className="flex items-center justify-center w-8 h-8 text-xs font-bold text-white border-2 border-white rounded-full shadow-sm bg-gradient-to-tr from-blue-600 to-purple-600">
+                  <div className="flex items-center justify-center w-8 h-8 text-xs font-bold rounded-full bg-ink text-volt">
                     {user?.fullName?.charAt(0) || 'U'}
                   </div>
                   <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform duration-300 ${isProfileOpen ? 'rotate-180' : ''}`} />
@@ -112,21 +112,21 @@ export default function Header() {
               ) : (
                 <Link
                   to="/login"
-                  className="px-5 py-2 text-sm font-semibold text-white transition-all bg-gray-900 rounded-full hover:bg-black hover:shadow-lg active:scale-95"
+                  className="px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-white bg-ink hover:bg-black active:scale-95 transition-all"
                 >
-                  Sign In
+                  Đăng nhập
                 </Link>
               )}
 
               {/* Profile Dropdown Card */}
               {isProfileOpen && (
-                <div className="absolute right-0 mt-4 w-64 bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-50 border border-gray-100 p-2 animate-in fade-in zoom-in duration-200">
+                <div className="absolute right-0 mt-4 w-64 bg-bone shadow-[0_20px_50px_rgba(0,0,0,0.12)] z-50 border border-ink/10 p-2">
                   <div className="px-4 py-3 border-b border-gray-50">
                     <p className="text-sm font-bold text-gray-900 truncate">{user?.fullName}</p>
                     <p className="text-xs text-gray-500 truncate">{user?.email}</p>
                   </div>
                   <div className="py-2">
-                    <Link to="/profile" className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all">
+                    <Link to="/profile" className="flex items-center gap-3 px-4 py-2.5 text-sm text-ink/70 hover:bg-ink/5 hover:text-ink transition-colors">
                       <User className="w-4 h-4" /> Hồ sơ cá nhân
                     </Link>
                     <Link
@@ -137,7 +137,7 @@ export default function Header() {
                       <Package className="w-4 h-4" /> Đơn hàng của tôi
                     </Link>
                     {user?.role === 'ADMIN' && (
-                      <Link to="/admin" className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:bg-purple-50 hover:text-purple-600 rounded-xl transition-all">
+                      <Link to="/admin" className="flex items-center gap-3 px-4 py-2.5 text-sm text-ink/70 hover:bg-ink/5 hover:text-ink transition-colors">
                         <Settings className="w-4 h-4" /> Quản trị viên
                       </Link>
                     )}
@@ -165,7 +165,7 @@ export default function Header() {
 
       {/* Fullscreen Mobile Menu - Overlay Style */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-[60] bg-white p-6 animate-in slide-in-from-right duration-300">
+        <div className="fixed inset-0 z-[60] bg-bone p-6">
           <div className="flex items-center justify-between mb-10">
             <img src={logo} alt="Logo" className="w-32" />
             <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 bg-gray-100 rounded-full">
@@ -178,7 +178,7 @@ export default function Header() {
                 <li key={item}>
                   <Link
                     to="/products"
-                    className="text-3xl font-bold text-gray-900 transition-colors hover:text-blue-600"
+                    className="font-display text-4xl uppercase tracking-wide text-ink hover:text-ink/60 transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item}
@@ -191,7 +191,7 @@ export default function Header() {
             {!isLoggedIn && (
               <Link
                 to="/login"
-                className="block w-full py-4 font-bold text-center text-white bg-gray-900 rounded-2xl"
+                className="block w-full py-4 text-sm font-bold uppercase tracking-widest text-center text-white bg-ink"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Đăng nhập ngay

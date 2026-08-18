@@ -44,10 +44,10 @@ export const BrandCategory = () => {
     <div className="py-16">
       <div className="flex items-center justify-between mb-10">
         <div>
-          <h2 className="text-3xl italic font-black tracking-tighter text-gray-900 uppercase">
-            Shop By <span className="text-blue-600">Brands</span>
+          <h2 className="font-display text-4xl uppercase tracking-wide text-ink">
+            Shop By <span className="bg-volt px-2">Brands</span>
           </h2>
-          <div className="w-12 h-1 mt-2 bg-blue-600"></div>
+          <div className="w-14 h-1 mt-3 bg-ink"></div>
         </div>
       </div>
 
@@ -70,10 +70,10 @@ export const BrandCategory = () => {
 
             {/* Content */}
             <div className="absolute inset-0 flex flex-col justify-end p-8">
-              <span className="text-blue-400 text-xs font-bold uppercase tracking-[0.3em] mb-2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+              <span className="text-volt text-xs font-bold uppercase tracking-[0.3em] mb-2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
                 {brand.desc}
               </span>
-              <h3 className="flex items-center gap-2 text-3xl italic font-black tracking-tighter text-white uppercase">
+              <h3 className="flex items-center gap-2 font-display text-3xl uppercase tracking-wide text-white">
                 {brand.name}
                 <ArrowRight className="w-6 h-6 transition-transform duration-300 -rotate-45 group-hover:rotate-0" />
               </h3>

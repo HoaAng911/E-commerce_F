@@ -7,11 +7,11 @@ const NotFoundPage = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-4 bg-gradient-to-b from-gray-50 to-white">
       <div className="max-w-lg text-center">
-        <div className="inline-flex items-center justify-center w-20 h-20 mb-6 bg-red-100 rounded-full">
-          <Footprints className="w-10 h-10 text-red-500" />
+        <div className="inline-flex items-center justify-center w-20 h-20 mb-6 bg-ink">
+          <Footprints className="w-10 h-10 text-volt" />
         </div>
-        
-        <h1 className="mb-4 font-bold text-gray-900 text-8xl">404</h1>
+
+        <h1 className="mb-4 font-display text-ink text-8xl uppercase">404</h1>
         <h2 className="mb-4 text-2xl font-semibold text-gray-800">
           Đường chân trời không tìm thấy
         </h2>
@@ -22,13 +22,13 @@ const NotFoundPage = () => {
         <div className="flex flex-col justify-center gap-4 sm:flex-row">
           <Link 
             to="/" 
-            className="px-8 py-3 font-semibold text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700"
+            className="px-8 py-3 font-bold uppercase tracking-wide text-white transition-colors bg-ink hover:bg-ink/80"
           >
             Về trang chủ
           </Link>
           <Link 
             to="/products" 
-            className="px-8 py-3 font-semibold text-gray-900 transition-colors border-2 border-gray-900 rounded-lg hover:bg-gray-900 hover:text-white"
+            className="px-8 py-3 font-bold uppercase tracking-wide text-ink transition-colors border-2 border-ink hover:bg-ink hover:text-bone"
           >
             Xem sản phẩm
           </Link>

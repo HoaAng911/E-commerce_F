@@ -1,15 +1,24 @@
 @import "tailwindcss";
 
 @theme {
-  --color-admin-primary: #6366f1;
-  --color-admin-primary-light: #eef2ff;
-  --color-admin-bg: #f8fafc;
-  --color-admin-sidebar: #ffffff;
+  /* ── Storefront: Athletic Premium ──────────────────────────── */
+  --color-volt: #d8ff3e;
+  --color-ink: #111110;
+  --color-bone: #f2f0ea;
+
+  --font-display: "Anton", "Arial Narrow", Impact, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* ── Admin (dashboard, Athletic Premium) ────────────────────── */
+  --color-admin-primary: #111110;   /* ink — nút chính, nav active */
+  --color-admin-primary-light: #f2f0ea; /* bone — hover, thead, chips */
+  --color-admin-bg: #f2f0ea;        /* bone nền trang */
+  --color-admin-sidebar: #111110;   /* ink sidebar */
   --color-admin-card: #ffffff;
-  --color-admin-border: #f1f5f9;
+  --color-admin-border: #e2e8f0;
   --color-admin-text: #1e293b;
   --color-admin-subtext: #64748b;
-  
+
   --shadow-admin-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-admin-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
@@ -17,5 +26,21 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-bone text-ink font-sans antialiased;
+  }
+
+  ::selection {
+    background-color: var(--color-ink);
+    color: var(--color-volt);
+  }
+}
+
+@layer utilities {
+  .text-outline-light {
+    -webkit-text-stroke: 1px rgb(255 255 255 / 0.16);
+    color: transparent;
   }
 }

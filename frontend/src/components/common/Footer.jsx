@@ -27,8 +27,8 @@ const Footer = () => {
           {/* Brand & Newsletter */}
           <div className="space-y-8 lg:col-span-4">
             <div>
-              <h2 className="text-2xl italic font-black tracking-tighter text-white uppercase">
-                Shoe<span className="text-blue-500">Store</span>
+              <h2 className="font-display text-3xl uppercase tracking-wide text-white">
+                Shoe<span className="text-volt">Store</span>
               </h2>
               <p className="max-w-sm mt-4 text-sm leading-relaxed text-gray-500">
                 Chúng tôi không chỉ bán giày, chúng tôi mang đến phong cách sống. 
@@ -41,9 +41,9 @@ const Footer = () => {
                 <input
                   type="email"
                   placeholder="Email của bạn..."
-                  className="w-full bg-[#141414] border border-white/10 rounded-full py-3 px-6 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+                  className="w-full bg-[#141414] border border-white/10 rounded-full py-3 px-6 text-sm focus:outline-none focus:border-volt focus:ring-1 focus:ring-volt transition-all"
                 />
-                <button className="absolute px-4 text-black transition-all bg-white rounded-full right-1 top-1 bottom-1 hover:bg-blue-500 hover:text-white">
+                <button className="absolute px-4 text-black transition-all bg-white rounded-full right-1 top-1 bottom-1 hover:bg-volt hover:text-black">
                   <Send className="w-4 h-4" />
                 </button>
               </div>
@@ -57,7 +57,7 @@ const Footer = () => {
                 {['Giày Thể Thao', 'Giày Sneaker', 'Giày Chạy Bộ', 'Phụ Kiện'].map((item) => (
                   <li key={item}>
                     <a href="#" className="flex items-center text-sm transition-colors hover:text-white group">
-                      <span className="w-0 group-hover:w-4 transition-all duration-300 h-[1px] bg-blue-500 mr-0 group-hover:mr-2"></span>
+                      <span className="w-0 group-hover:w-4 transition-all duration-300 h-[1px] bg-volt mr-0 group-hover:mr-2"></span>
                       {item}
                     </a>
                   </li>
@@ -80,17 +80,17 @@ const Footer = () => {
             <h3 className="text-sm font-bold tracking-widest text-white uppercase">Liên hệ</h3>
             <div className="space-y-4">
               <div className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-blue-500 shrink-0" />
+                <MapPin className="w-5 h-5 text-volt shrink-0" />
                 <span className="text-sm">227 Nguyễn Văn Cừ, Quận 5, TP. HCM</span>
               </div>
               <div className="flex items-center gap-3 font-bold text-white">
-                <Phone className="w-5 h-5 text-blue-500 shrink-0" />
+                <Phone className="w-5 h-5 text-volt shrink-0" />
                 <span className="text-lg tracking-wider">1900 1234</span>
               </div>
             </div>      
             <div className="flex gap-3 pt-4">
               {[Facebook, Instagram, Twitter, Youtube].map((Icon, idx) => (
-                <a key={idx} href="#" className="w-10 h-10 flex items-center justify-center rounded-xl bg-[#141414] border border-white/5 text-gray-500 hover:bg-blue-600 hover:text-white hover:-translate-y-1 transition-all shadow-lg">
+                <a key={idx} href="#" className="w-10 h-10 flex items-center justify-center rounded-xl bg-[#141414] border border-white/5 text-gray-500 hover:bg-volt hover:text-black hover:-translate-y-1 transition-all shadow-lg">
                   <Icon className="w-5 h-5" />
                 </a>
               ))}

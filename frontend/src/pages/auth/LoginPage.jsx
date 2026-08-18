@@ -93,10 +93,10 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen px-4 py-12 bg-white">
+    <div className="flex items-center justify-center min-h-screen px-4 py-12 bg-bone">
       <div className="w-full max-w-sm">
         {/* Title */}
-        <h1 className="mb-8 text-2xl font-bold text-center text-gray-900 uppercase">
+        <h1 className="mb-8 font-display text-3xl text-center text-ink uppercase tracking-wide">
           ĐĂNG NHẬP
         </h1>
 
@@ -162,7 +162,7 @@ export default function LoginPage() {
             <div className="flex justify-end mt-2">
               <Link
                 to="/forgot-password"
-                className="text-sm font-medium text-blue-600 hover:text-blue-500 hover:underline"
+                className="text-sm font-medium text-ink/60 hover:text-ink hover:underline underline-offset-4"
               >
                 Quên mật khẩu?
               </Link>
@@ -186,7 +186,7 @@ export default function LoginPage() {
           <button
             onClick={handleFacebookLogin}
             disabled={isLoading}
-            className="flex items-center justify-center w-full h-12 px-4 space-x-3 text-sm font-medium text-white transition-colors bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            className="flex items-center justify-center w-full h-12 px-4 space-x-3 text-sm font-bold text-white uppercase tracking-wide transition-colors bg-ink hover:bg-ink/80 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ink/30"
           >
             <FaFacebookF className="w-5 h-5 text-white" />
             <span>Đăng nhập bằng Facebook</span>
@@ -257,7 +257,7 @@ export default function LoginPage() {
         {/* Register link */}
         <p className="mt-6 text-sm text-center text-gray-600">
           Chưa có tài khoản?{' '}
-          <Link to="/signup" className="font-semibold text-blue-600 underline hover:text-blue-700">
+          <Link to="/signup" className="font-bold text-ink underline underline-offset-4 hover:text-ink/60">
             Đăng ký ngay
           </Link>
         </p>

@@ -4,7 +4,7 @@ const ProductSort = ({ total, sortBy, onSortChange }) => {
   return (
     <div className="flex flex-col items-start justify-between gap-4 mb-8 sm:flex-row sm:items-center">
       <div>
-        <h1 className="text-2xl italic font-black tracking-tighter uppercase">Tất cả sản phẩm</h1>
+        <h1 className="font-display text-3xl uppercase tracking-wide">Tất cả sản phẩm</h1>
         <p className="mt-1 text-xs tracking-widest text-gray-500 uppercase">Hiển thị {total} kết quả</p>
       </div>
 

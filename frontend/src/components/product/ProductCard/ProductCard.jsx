@@ -69,7 +69,7 @@ const ProductCard = ({
           {/* Discount Badge */}
           {discount && (
             <div className="absolute top-3 left-3">
-              <span className="px-3 py-1 text-sm font-bold text-white rounded-b-sm shadow-md bg-blue-600">
+              <span className="px-3 py-1 text-sm font-bold text-ink bg-volt">
                 -{discount}%
               </span>
             </div>

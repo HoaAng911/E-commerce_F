@@ -101,10 +101,10 @@ const FeaturedProducts = () => {
       <div className="container px-4 mx-auto">
         {/* Header đơn giản */}
         <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 uppercase">
+          <h2 className="font-display text-3xl md:text-4xl uppercase tracking-wide text-ink">
             Sản phẩm nổi bật
           </h2>
-          <div className="w-16 h-1 mt-2 bg-black"></div>
+          <div className="w-14 h-1 mt-3 bg-ink"></div>
         </div>
 
         {/* Grid sản phẩm */}

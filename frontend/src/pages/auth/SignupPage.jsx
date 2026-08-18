@@ -88,11 +88,11 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen px-4 py-12 bg-gray-50">
+    <div className="flex items-center justify-center min-h-screen px-4 py-12 bg-bone">
       <div className="w-full max-w-md">
         <div className="p-8 rounded-lg">
           {/* Title */}
-          <h2 className="mb-8 text-2xl font-bold text-center text-gray-900 uppercase">
+          <h2 className="mb-8 font-display text-3xl text-center text-ink uppercase tracking-wide">
             Đăng ký
           </h2>
 
@@ -201,7 +201,7 @@ export default function SignupPage() {
               <button
                 type="button"
                 onClick={() => navigate('/login')}
-                className="font-semibold text-blue-600 underline hover:text-blue-700"
+                className="font-bold text-ink underline underline-offset-4 hover:text-ink/60"
               >
                 Đăng nhập ngay
               </button>

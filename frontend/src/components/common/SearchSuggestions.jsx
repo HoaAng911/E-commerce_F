@@ -62,9 +62,9 @@ export default function SearchSuggestions() {
         ${isOpen ? 'bg-white shadow-2xl ring-1 ring-black/5' : 'bg-gray-100 hover:bg-gray-200/70'}
       `}>
         {isLoading ? (
-          <Loader2 className="w-5 h-5 text-blue-600 animate-spin" />
+          <Loader2 className="w-5 h-5 text-ink animate-spin" />
         ) : (
-          <Search className={`w-5 h-5 transition-colors ${isOpen ? 'text-blue-600' : 'text-gray-400 group-hover:text-gray-600'}`} />
+          <Search className={`w-5 h-5 transition-colors ${isOpen ? 'text-ink' : 'text-gray-400 group-hover:text-gray-600'}`} />
         )}
         
         <input
@@ -105,7 +105,7 @@ export default function SearchSuggestions() {
                       navigate(`/products/${item.id}`);
                       setIsOpen(false);
                     }}
-                    className="flex items-center gap-4 p-3 mx-2 my-1 transition-all cursor-pointer hover:bg-blue-50/60 rounded-xl group/item"
+                    className="flex items-center gap-4 p-3 mx-2 my-1 transition-all cursor-pointer hover:bg-ink/5 rounded-xl group/item"
                   >
                     <div className="relative flex-shrink-0 overflow-hidden bg-gray-100 rounded-lg w-14 h-14">
                       <img
@@ -116,7 +116,7 @@ export default function SearchSuggestions() {
                     </div>
                     
                     <div className="flex-1 min-w-0">
-                      <h4 className="text-sm font-semibold text-gray-800 truncate group-hover/item:text-blue-600">
+                      <h4 className="text-sm font-semibold text-gray-800 truncate group-hover/item:text-ink">
                         {item.name}
                       </h4>
                       <p className="mt-0.5 text-xs text-gray-500">Nike Sportswear • Black</p>
@@ -125,7 +125,7 @@ export default function SearchSuggestions() {
                       </p>
                     </div>
 
-                    <ArrowRight className="w-4 h-4 text-gray-300 transition-all -translate-x-2 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-0 group-hover/item:text-blue-500" />
+                    <ArrowRight className="w-4 h-4 text-gray-300 transition-all -translate-x-2 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-0 group-hover/item:text-ink" />
                   </div>
                 ))}
               </div>

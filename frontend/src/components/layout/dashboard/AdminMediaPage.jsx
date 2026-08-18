@@ -95,7 +95,7 @@ const AdminMediaPage = () => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="text-2xl font-bold tracking-tight text-gray-900 uppercase">
+        <h2 className="font-display text-4xl tracking-wide text-ink uppercase">
           Quản lý Media
         </h2>
         <p className="mt-1 text-sm font-bold tracking-widest text-gray-500 uppercase">
@@ -105,12 +105,12 @@ const AdminMediaPage = () => {
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Upload Area */}
-        <div className="p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
+        <div className="p-6 bg-white border border-admin-border shadow-sm">
           <h3 className="mb-4 text-xs font-bold tracking-widest text-gray-900 uppercase">Tải Lên Ảnh Mới</h3>
           
           <div 
-            className={`relative flex flex-col items-center justify-center p-8 border-2 border-dashed rounded-lg transition-colors ${
-              isDragging ? 'border-blue-500 bg-blue-50/50' : 'border-gray-300 hover:border-black bg-gray-50'
+            className={`relative flex flex-col items-center justify-center p-8 border-2 border-dashed transition-colors ${
+              isDragging ? 'border-volt bg-volt/10' : 'border-admin-border hover:border-ink bg-admin-primary-light/40'
             }`}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
@@ -131,7 +131,7 @@ const AdminMediaPage = () => {
                   <UploadCloud className="w-8 h-8 text-gray-600" />
                 </div>
                 <p className="mb-2 text-sm font-medium text-gray-900">
-                  Kéo thả file ảnh vào đây, hoặc <button onClick={() => fileInputRef.current?.click()} className="text-blue-600 hover:underline focus:outline-none">tìm trên máy</button>
+                  Kéo thả file ảnh vào đây, hoặc <button onClick={() => fileInputRef.current?.click()} className="text-ink hover:underline underline-offset-4 focus:outline-none">tìm trên máy</button>
                 </p>
                 <p className="text-xs text-gray-500 uppercase tracking-widest font-bold">PNG, JPG, WEBP, GIF, AVIF tối đa 5MB</p>
               </div>
@@ -146,21 +146,21 @@ const AdminMediaPage = () => {
                     <X size={16} />
                   </button>
                 </div>
-                <div className="aspect-video w-full overflow-hidden bg-gray-100 rounded-md border border-gray-200 flex items-center justify-center">
+                <div className="aspect-video w-full overflow-hidden bg-admin-primary-light/40 border border-admin-border flex items-center justify-center">
                   <img src={preview} alt="Preview" className="object-contain w-full h-full" />
                 </div>
                 <div className="grid grid-cols-2 gap-4 mt-6">
                   <button
                     onClick={clearSelection}
                     disabled={isUploading}
-                    className="py-2.5 px-4 text-xs font-bold tracking-widest text-gray-700 uppercase transition-colors bg-white border-2 border-gray-200 rounded-sm hover:bg-gray-50 disabled:opacity-50"
+                    className="py-2.5 px-4 text-xs font-bold tracking-widest text-gray-700 uppercase transition-colors bg-white border-2 border-admin-border hover:bg-gray-50 disabled:opacity-50"
                   >
                     Chọn Lại
                   </button>
                   <button
                     onClick={handleUpload}
                     disabled={isUploading || !file || uploadedImageUrl}
-                    className="flex items-center justify-center gap-2 py-2.5 px-4 text-xs font-bold tracking-widest text-white uppercase transition-colors bg-black border-2 border-black rounded-sm hover:bg-gray-900 disabled:opacity-50 disabled:bg-gray-400 disabled:border-gray-400"
+                    className="flex items-center justify-center gap-2 py-2.5 px-4 text-xs font-bold tracking-widest text-white uppercase transition-colors bg-ink border-2 border-ink hover:bg-ink/80 disabled:opacity-50 disabled:bg-gray-400 disabled:border-gray-400"
                   >
                     {isUploading ? (
                       <>
@@ -180,7 +180,7 @@ const AdminMediaPage = () => {
         </div>
 
         {/* Result Area */}
-        <div className="p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
+        <div className="p-6 bg-white border border-admin-border shadow-sm">
           <h3 className="mb-4 text-xs font-bold tracking-widest text-gray-900 uppercase">Kết Quả Upload</h3>
           
           {uploadedImageUrl ? (
@@ -195,8 +195,8 @@ const AdminMediaPage = () => {
 
               <div>
                 <label className="block mb-2 text-xs font-bold tracking-widest text-gray-700 uppercase">URL Hình Ảnh</label>
-                <div className="flex bg-gray-50 border border-gray-300 rounded-sm overflow-hidden focus-within:ring-1 focus-within:ring-black focus-within:border-black transition-all">
-                  <div className="flex items-center justify-center px-4 bg-gray-100 border-r border-gray-300">
+                <div className="flex bg-admin-primary-light/40 border border-admin-border overflow-hidden focus-within:ring-1 focus-within:ring-ink focus-within:border-ink transition-all">
+                  <div className="flex items-center justify-center px-4 bg-admin-primary-light border-r border-admin-border">
                     <ImageIcon size={16} className="text-gray-500" />
                   </div>
                   <input 
@@ -207,7 +207,7 @@ const AdminMediaPage = () => {
                   />
                   <button 
                     onClick={copyToClipboard}
-                    className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white transition-colors bg-black hover:bg-gray-800"
+                    className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white transition-colors bg-ink hover:bg-ink/80"
                   >
                     <Copy size={16} /> Copy
                   </button>
@@ -219,7 +219,7 @@ const AdminMediaPage = () => {
                   href={uploadedImageUrl} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 hover:text-blue-800 group"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-ink hover:text-ink/70 group"
                 >
                   Mở ảnh ở tab mới 
                   <ExternalLink size={14} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
@@ -227,7 +227,7 @@ const AdminMediaPage = () => {
               </div>
             </div>
           ) : (
-             <div className="flex flex-col items-center justify-center p-8 h-[300px] border-2 border-dashed border-gray-200 rounded-lg bg-gray-50/50">
+             <div className="flex flex-col items-center justify-center p-8 h-[300px] border-2 border-dashed border-admin-border bg-admin-primary-light/40">
                 <div className="p-4 mb-4 bg-white rounded-full shadow-sm">
                   <ImageIcon className="w-8 h-8 text-gray-400" />
                 </div>
