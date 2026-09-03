@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import orderApi from '../api/order.service';
 
-const useOrderStore = create((set, get) => ({
+const useOrderStore = create((set) => ({
   orders: [],           // Danh sách đơn hàng
   currentOrder: null,   // Đơn hàng đang xem chi tiết
   isLoading: false,     // Trạng thái chờ
@@ -31,7 +31,7 @@ const useOrderStore = create((set, get) => ({
     try {
       const data = await orderApi.getMyOrders();
       set({ orders: data, isLoading: false });
-    } catch (err) {
+    } catch {
       set({ error: 'Không thể tải danh sách đơn hàng', isLoading: false });
     }
   },
@@ -72,7 +72,7 @@ const useOrderStore = create((set, get) => ({
     try {
       const data = await orderApi.getAllOrders();
       set({ orders: data, isLoading: false });
-    } catch (err) {
+    } catch {
       set({ error: 'Không thể tải tất cả đơn hàng', isLoading: false });
     }
   },

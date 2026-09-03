@@ -9,8 +9,6 @@ const AdminOrderPage = () => {
   const [editingOrderId, setEditingOrderId] = useState(null);
   const [activeStatus, setActiveStatus] = useState('');
 
-  const statusOptions = ['pending', 'confirmed', 'shipping', 'delivered', 'cancelled'];
-
   useEffect(() => {
     fetchOrders();
   }, []);

@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import useProductStore from '../store/product.store';
@@ -13,7 +13,7 @@ export default function ProductsPage() {
   const { products, loading, pagination, fetchProductsWithPagination } = useProductStore();
   const { categories, fetchCategories } = useCategoryStore();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [showMobileFilters, setShowMobileFilters] = useState(false);
+  const [, setShowMobileFilters] = useState(false);
   const [expandedSections, setExpandedSections] = useState({ category: true, brand: true });
   const uniqueBrands = useMemo(() => {
     if (!products) return [];

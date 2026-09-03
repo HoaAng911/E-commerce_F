@@ -10,7 +10,7 @@ import { toast } from 'sonner';
 
 const ProductDetailPage = () => {
   const { id } = useParams();
-  const { fetchProductById, selectedProduct, loading, error } = useProductStore();
+  const { fetchProductById, selectedProduct, loading } = useProductStore();
   const { reviews, fetchReviewsByProduct, addReview } = useReviewStore();
   const addToCart = useCartStore((state) => state.addToCart);
   const { user } = useAuthStore();
@@ -33,6 +33,7 @@ const ProductDetailPage = () => {
 
   useEffect(() => {
     if (selectedProduct) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Đồng bộ ảnh chính sau khi sản phẩm được tải về (bất đồng bộ)
       setMainImage(selectedProduct.mainImage);
     }
   }, [selectedProduct]);

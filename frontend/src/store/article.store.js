@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import articleApi from '../api/article.service';
 
-const useArticleStore = create((set, get) => ({
+const useArticleStore = create((set) => ({
   articles: [],
   currentArticle: null,
   isLoading: false,

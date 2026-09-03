@@ -25,7 +25,7 @@ const UserDashboard = () => {
     try {
       await userService.updateUserStatus(id, !currentStatus);
       fetchUsers(); // Tải lại danh sách
-    } catch (error) {
+    } catch {
       toast.error("Cập nhật trạng thái thất bại");
     }
   };
@@ -36,7 +36,7 @@ const UserDashboard = () => {
       try {
         await userService.deleteUser(id);
         toast.success("Xóa thành viên thành công");
-      } catch (error) {
+      } catch {
         toast.error("Xóa thất bại");
       }
     }

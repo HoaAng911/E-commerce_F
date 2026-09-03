@@ -64,7 +64,7 @@ export default function RegisterForm() {
         confirmPassword: form.confirmPassword
 
       };
-      const response = await register(userData);
+      await register(userData);
       toast.success('Đăng ký thành công! Vui lòng đăng nhập.');
       navigate('/login');
 

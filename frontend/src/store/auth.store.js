@@ -145,7 +145,7 @@ const useAuthStore = create(
 
         try {
           authApi.logout();
-        } catch (e) {
+        } catch {
           console.log("Server session already cleared or expired");
         }
       },

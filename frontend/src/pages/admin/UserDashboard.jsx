@@ -103,7 +103,7 @@ const UserDashboard = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {users.map((user, idx) => (
+              {users.map((user) => (
                 <tr key={user.id} className="hover:bg-gray-50 transition-colors">
                   <td className="py-4 px-6">
                     <div className="flex items-center gap-4">

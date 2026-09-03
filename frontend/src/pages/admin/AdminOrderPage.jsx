@@ -9,8 +9,6 @@ const AdminOrderPage = () => {
   const [activeStatus, setActiveStatus] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
 
-  const statusOptions = ['pending', 'confirmed', 'shipping', 'delivered', 'cancelled'];
-
   useEffect(() => {
     fetchAllOrders();
   }, [fetchAllOrders]);

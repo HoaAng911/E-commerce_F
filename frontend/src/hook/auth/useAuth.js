@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 
 export const useAuth = () => {
   const navigate = useNavigate();
-  const { loginAction, registerAction, setError, isLoading } = useAuthStore();
+  const { loginAction, registerAction, isLoading } = useAuthStore();
   const [localErrors, setLocalErrors] = useState({});
 
   // Logic Validate chung
@@ -32,7 +32,7 @@ export const useAuth = () => {
     try {
       await loginAction(credentials);
       navigate('/');
-    } catch (err) {
+    } catch {
       // Error đã được Store xử lý
     }
   };
@@ -43,7 +43,9 @@ export const useAuth = () => {
       await registerAction(userData);
       toast.success('Đăng ký thành công!');
       navigate('/login');
-    } catch (err) {}
+    } catch {
+      // Error đã được Store xử lý
+    }
   };
 
   return {

@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { Eye, Heart } from 'lucide-react';
 
 const ProductImage = ({

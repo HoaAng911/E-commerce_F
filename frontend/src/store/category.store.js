@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import categoryApi from '../api/category.service';
 
-const useCategoryStore = create((set, get) => ({
+const useCategoryStore = create((set) => ({
   categories: [],
   selectedCategory: null,
   loading: false,

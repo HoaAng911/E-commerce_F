@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Star, CheckCircle } from 'lucide-react';
 
-const ReviewSection = ({ reviews, onSendReview, user }) => {
+const ReviewSection = ({ reviews, onSendReview }) => {
   const [newComment, setNewComment] = useState('');
   const [newRating, setNewRating] = useState(5);
 

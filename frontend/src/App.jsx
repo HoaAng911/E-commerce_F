@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Toaster } from 'sonner'
 import './App.css'
 import MainLayout from './components/layout/MainLayout'
@@ -26,12 +25,9 @@ import ForgotPassword from './pages/auth/ForgotPasswordPage'
 import ArticleList from './components/common/ArticleList'
 import ArticleDetail from './pages/ArticleDetail'
 import AdminRoute from './components/routes/AdminRoute'
-import useAuthStore from './store/auth.store' 
 import ScrollToTop from './components/common/ScrollToTop'
 
 function App() {
-  const { user } = useAuthStore();
-
   return (
     <BrowserRouter>
       <ScrollToTop />

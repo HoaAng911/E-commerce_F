@@ -86,7 +86,7 @@ export default function LoginPage() {
       };
 
       window.addEventListener('message', messageHandler);
-    } catch (err) {
+    } catch {
       setError('Đăng nhập Facebook thất bại');
       setLoading(false);
     }

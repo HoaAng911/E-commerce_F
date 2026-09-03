@@ -1,6 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { User, Phone, MapPin, Plus,Mail,Save, Trash2, Loader2, X } from 'lucide-react';
 
+// Helper component cho Input Field - khai báo NGOÀI component (tránh bị tạo lại mỗi lần render -> mất state)
+const InputField = ({ label, icon: Icon, ...props }) => (
+  <div>
+    <label className="block mb-2 text-sm font-semibold text-gray-800">
+      {label}
+    </label>
+    <div className="relative">
+      <div className="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 pointer-events-none">
+        <Icon className="w-5 h-5" />
+      </div>
+      <input
+        {...props}
+        className={`w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all ${props.disabled ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : 'bg-white'}`}
+      />
+    </div>
+    {props.name === 'email' && <p className="mt-1.5 text-xs text-gray-500 pl-1">Email tài khoản không thể thay đổi</p>}
+  </div>
+);
+
 const ProfileForm = ({ user, onSubmit, onCancel, loading }) => {
   const [formData, setFormData] = useState({
     fullName: '',
@@ -12,6 +31,7 @@ const ProfileForm = ({ user, onSubmit, onCancel, loading }) => {
 
   useEffect(() => {
     if (user) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Đồng bộ form khi user được tải từ server (bất đồng bộ)
       setFormData({
         fullName: user.fullName || '',
       
@@ -69,25 +89,6 @@ const ProfileForm = ({ user, onSubmit, onCancel, loading }) => {
 
     onSubmit(updateData);
   };
-
-  // Helper component cho Input Field
-  const InputField = ({ label, icon: Icon, ...props }) => (
-    <div>
-      <label className="block mb-2 text-sm font-semibold text-gray-800">
-        {label}
-      </label>
-      <div className="relative">
-        <div className="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 pointer-events-none">
-          <Icon className="w-5 h-5" />
-        </div>
-        <input
-          {...props}
-          className={`w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all ${props.disabled ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : 'bg-white'}`}
-        />
-      </div>
-      {props.name === 'email' && <p className="mt-1.5 text-xs text-gray-500 pl-1">Email tài khoản không thể thay đổi</p>}
-    </div>
-  );
 
   return (
     <form id="profile-form" onSubmit={handleSubmit} className="space-y-10">

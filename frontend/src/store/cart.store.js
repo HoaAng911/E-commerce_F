@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import cartApi from '../api/cart.service';
-import useAuthStore from './auth.store'; // Để lấy userId tự động
 
 const useCartStore = create((set, get) => ({
   cart: null,

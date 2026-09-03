@@ -33,7 +33,7 @@ export default function ForgotPassword() {
       setTokens({ ...tokens, reset: res.data.reset_access_token });
       setStep(3);
       setError('');
-    } catch (err) {
+    } catch {
       setError('Mã xác nhận không hợp lệ. Vui lòng thử lại.');
     } finally { setLoading(false); }
   };
@@ -44,7 +44,7 @@ export default function ForgotPassword() {
     try {
       await authApi.finalizeReset({ reset_access_token: tokens.reset, newPassword });
       navigate('/login', { state: { message: 'Mật khẩu đã được cập nhật.' } });
-    } catch (err) {
+    } catch {
       setError('Phiên làm việc đã hết hạn.');
     } finally { setLoading(false); }
   };

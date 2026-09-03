@@ -14,7 +14,7 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [isLiked, setIsLiked] = useState(false);
 
-  const { fetchProductById, selectedProduct, loading, error } = useProductStore();
+  const { fetchProductById, selectedProduct, loading } = useProductStore();
   const { reviews, fetchReviewsByProduct, addReview } = useReviewStore();
   const addToCart = useCartStore((state) => state.addToCart);
   const { user } = useAuthStore();

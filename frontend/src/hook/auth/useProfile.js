@@ -3,7 +3,7 @@ import authApi from '../../api/auth.service';
 import useAuthStore from '../../store/auth.store';
 import { toast } from 'sonner';
 
-export const useProfile = (initialUser) => {
+export const useProfile = () => {
   const [loading, setLoading] = useState(false);
   const { setUser } = useAuthStore();
 

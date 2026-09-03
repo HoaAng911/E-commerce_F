@@ -7,7 +7,6 @@ const ProductCard = ({
   product,
   isLiked = false,
   onLike,
-  onAddToCart,
   onQuickView,
   onClick
 }) => {
@@ -16,13 +15,10 @@ const ProductCard = ({
   const {
     id,
     title,
-    categoryLabel,
     image,
     price,
     originalPrice,
     discount,
-    rating,
-    reviewCount,
     tagLabels = [],
     stock,
   } = product;
