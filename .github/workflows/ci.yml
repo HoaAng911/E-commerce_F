@@ -1,3 +1,4 @@
+# Disable ESLint check temporarily
 name: CI
 
 on:
