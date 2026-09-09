@@ -55,24 +55,6 @@ jobs:
         run: npm run build
         working-directory: ./frontend
 
-      # Bước chẩn đoán: lỗi "Could not retrieve Project Settings" của Vercel CLI
-      # che giấu mã lỗi thật (401 token sai / 403 token không có quyền truy cập /
-      # 404 sai projectId). Bước này gọi thẳng Vercel API để hiện rõ lỗi thật.
-      - name: Diagnose Vercel API access
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-        run: |
-          set +e
-          echo "--- Token belongs to user: ---"
-          curl -s --max-time 20 -H "Authorization: Bearer ${VERCEL_TOKEN}" https://api.vercel.com/v2/user \
-            | jq -r '.username // (.error.code + " " + .error.message)' || true
-          echo "--- Fetch project settings (same call the CLI makes): ---"
-          curl -s --max-time 20 -H "Authorization: Bearer ${VERCEL_TOKEN}" \
-            "https://api.vercel.com/v9/projects/${VERCEL_PROJECT_ID}?teamId=${VERCEL_ORG_ID}" \
-            | jq -r 'if .name then ("SUCCESS: project=" + .name) else ("FAILED: " + (.error.code // "?") + " " + (.error.message // "?")) end' || true
-
       - name: Deploy to Vercel (production)
         uses: amondnet/vercel-action@v42
         with:
