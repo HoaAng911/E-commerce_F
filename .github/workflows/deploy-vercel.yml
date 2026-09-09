@@ -1,0 +1,66 @@
+# Deploy frontend lên Vercel bằng GitHub Actions (CI/CD)
+# Mỗi lần push code mới lên nhánh main, workflow này tự động build & deploy lên Vercel.
+#
+# Yêu cầu thiết lập 3 secrets trong GitHub repo (Settings > Secrets and variables > Actions):
+#   VERCEL_TOKEN      -> Vercel > Account Settings > Tokens > Create Token
+#   VERCEL_ORG_ID     -> id team/organization trên Vercel
+#   VERCEL_PROJECT_ID -> id project trên Vercel
+#
+# Cách lấy VERCEL_ORG_ID / VERCEL_PROJECT_ID:
+#   1. Import repo này vào Vercel Dashboard (hoặc vào frontend rồi chạy: npx vercel link)
+#   2. Mở file frontend/.vercel/project.json -> chứa orgId và projectId
+#      (orgId chính là VERCEL_ORG_ID, projectId chính là VERCEL_PROJECT_ID)
+name: Deploy to Vercel
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/deploy-vercel.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: vercel-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  deployments: write
+  pull-requests: write
+  statuses: write
+
+jobs:
+  deploy:
+    name: Deploy Frontend to Vercel
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ./frontend
+
+      # Kiểm tra build thành công cục bộ trước khi đưa lên Vercel,
+      # tránh tốn một lượt build trên cloud khi code bị lỗi.
+      - name: Build
+        run: npm run build
+        working-directory: ./frontend
+
+      - name: Deploy to Vercel (production)
+        uses: amondnet/vercel-action@v42
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+          working-directory: ./frontend
+          github-token: ${{ secrets.GITHUB_TOKEN }}
