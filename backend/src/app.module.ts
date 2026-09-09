@@ -58,7 +58,6 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
     }),
   ],
   // providers: [
-  
   //   {
   //     provide: APP_GUARD,
   //     useClass: ThrottlerGuard
