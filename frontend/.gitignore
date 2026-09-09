@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Vercel CLI (chứa orgId/projectId, không nên commit lên GitHub)
+.vercel
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
