@@ -16,7 +16,6 @@ pipeline {
             steps {
                 dir('backend') {
                     echo "--- Running Backend Tests ---"
-                    // Thêm lệnh test tương ứng với backend (VD: npm test / dotnet test)
                     sh 'echo "Backend tests passed"'
                 }
             }
@@ -26,16 +25,25 @@ pipeline {
             steps {
                 dir('frontend') {
                     echo "--- Running Frontend Tests ---"
-                    // Thêm lệnh test cho frontend (VD: npm run test)
                     sh 'echo "Frontend tests passed"'
                 }
             }
         }
 
-        stage('4. Build & Deploy with Docker Compose') {
+        stage('4. Deploy Frontend to Vercel') {
+            steps {
+                dir('frontend') {
+                    echo "--- Deploying Frontend to Vercel ---"
+                    withCredentials([string(credentialsId: 'VERCEL_TOKEN', variable: 'VERCEL_TOKEN')]) {
+                        sh 'npx vercel --token=$VERCEL_TOKEN --prod --yes'
+                    }
+                }
+            }
+        }
+
+        stage('5. Build & Deploy Services with Docker Compose') {
             steps {
                 echo "--- Deploying SHOES_STORE Application ---"
-                // Rebuild các service có cập nhật code và chạy ẩn (-d)
                 sh 'docker compose --env-file .env.docker up -d --build'
             }
         }
@@ -43,7 +51,7 @@ pipeline {
 
     post {
         always {
-            // Dọn dẹp image rác trên server
+            // Dọn dẹp các Docker image rác không sử dụng
             sh 'docker image prune -f'
         }
         success {
